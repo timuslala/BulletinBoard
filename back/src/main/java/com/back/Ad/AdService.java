@@ -7,6 +7,7 @@ import com.back.User.User;
 import com.back.Tag.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +19,12 @@ public class AdService {
     private final AdRepository adRepository;
     private final TagRepository tagRepository;
 
-    public Ad createAd(User seller, String title, String description, List<String> photoUrls, List<String> tagNames, boolean showEmail, boolean showPhone) {
+    public Ad createAd(User seller, String title, String description, List<MultipartFile> images, List<String> tagNames, boolean showEmail, boolean showPhone) {
         Ad ad = new Ad();
         ad.setSeller(seller);
         ad.setTitle(title);
         ad.setDescription(description);
-        ad.setPhotoUrls(photoUrls);
+        ad.setImages(images);
         ad.setShowEmail(showEmail);
         ad.setShowPhone(showPhone);
         ad.setPreviewToken(UUID.randomUUID().toString());
@@ -31,7 +32,7 @@ public class AdService {
         return adRepository.save(ad);
     }
 
-    public Ad updateAd(Long adId, User seller, String title, String description, List<String> photoUrls, List<String> tagNames, boolean showEmail, boolean showPhone) {
+    public Ad updateAd(Long adId, User seller, String title, String description, List<MultipartFile> images, List<String> tagNames, boolean showEmail, boolean showPhone) {
         Ad ad = adRepository.findById(adId)
                 .orElseThrow(() -> new IllegalArgumentException("Ad not found"));
         if (!ad.getSeller().getId().equals(seller.getId())) {
@@ -39,7 +40,7 @@ public class AdService {
         }
         ad.setTitle(title);
         ad.setDescription(description);
-        ad.setPhotoUrls(photoUrls);
+        ad.setImages(images);
         ad.setShowEmail(showEmail);
         ad.setShowPhone(showPhone);
         ad.setTags(processTags(tagNames));

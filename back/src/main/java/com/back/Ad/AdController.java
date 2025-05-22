@@ -24,7 +24,7 @@ public class AdController {
                 user,
                 request.getTitle(),
                 request.getDescription(),
-                request.getPhotoUrls(),
+                request.getImages(),
                 request.getTags(),
                 request.isShowEmail(),
                 request.isShowPhone()
@@ -42,7 +42,7 @@ public class AdController {
                 user,
                 request.getTitle(),
                 request.getDescription(),
-                request.getPhotoUrls(),
+                request.getImages(),
                 request.getTags(),
                 request.isShowEmail(),
                 request.isShowPhone()

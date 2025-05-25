@@ -2,6 +2,7 @@ package com.back.Ad;
 
 
 
+import com.back.User.CustomUserDetails;
 import com.back.User.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,10 @@ public class AdController {
 
     @PostMapping
     public ResponseEntity<Ad> createAd(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody AdDto request) {
         Ad ad = adService.createAd(
-                user,
+                userDetails.getUser(),
                 request.getTitle(),
                 request.getDescription(),
                 request.getImages(),
@@ -34,12 +35,12 @@ public class AdController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Ad> updateAd(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long id,
             @RequestBody AdDto request) {
         Ad ad = adService.updateAd(
                 id,
-                user,
+                userDetails.getUser(),
                 request.getTitle(),
                 request.getDescription(),
                 request.getImages(),
@@ -52,18 +53,18 @@ public class AdController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAd(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long id) {
-        adService.deleteAd(id, user);
+        adService.deleteAd(id, userDetails.getUser());
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/status")
     public ResponseEntity<Ad> updateStatus(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long id,
             @RequestBody AdStatusDto request) {
-        Ad ad = adService.updateStatus(id, user, request.getStatus());
+        Ad ad = adService.updateStatus(id, userDetails.getUser(), request.getStatus());
         return ResponseEntity.ok(ad);
     }
 
@@ -82,8 +83,9 @@ public class AdController {
     }
 
     @GetMapping("/my")
-    public ResponseEntity<List<Ad>> getMyAds(@AuthenticationPrincipal User user) {
-        List<Ad> ads = adService.getSellerAds(user.getId());
+    public ResponseEntity<List<Ad>> getMyAds(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        com.back.User.User user = userDetails.getUser();
+        List<Ad> ads = adService.getAdsBySeller(user.getId());
         return ResponseEntity.ok(ads);
     }
 }

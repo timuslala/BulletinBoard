@@ -117,7 +117,7 @@ public class AdService {
         return adRepository.findByPreviewToken(token);
     }
 
-    public List<Ad> getSellerAds(Long sellerId) {
+    public List<Ad> getAdsBySeller(Long sellerId) {
         return adRepository.findBySellerId(sellerId);
     }
 }

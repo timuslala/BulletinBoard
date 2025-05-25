@@ -1,5 +1,6 @@
 package com.back.Message;
 
+import com.back.User.CustomUserDetails;
 import com.back.User.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,10 @@ public class MessageController {
 
     @PostMapping
     public ResponseEntity<Message> sendMessage(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody MessageDto request) {
         Message message = messageService.sendMessage(
-                user,
+                userDetails.getUser(),
                 new User() {{ setId(request.getReceiverId()); }},
                 request.getContent(),
                 request.getReplyToId()
@@ -28,14 +29,14 @@ public class MessageController {
     }
 
     @GetMapping("/inbox")
-    public ResponseEntity<List<Message>> getInbox(@AuthenticationPrincipal User user) {
-        List<Message> messages = messageService.getInbox(user.getId());
+    public ResponseEntity<List<Message>> getInbox(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        List<Message> messages = messageService.getInbox(userDetails.getUser().getId());
         return ResponseEntity.ok(messages);
     }
 
     @GetMapping("/sent")
-    public ResponseEntity<List<Message>> getSentMessages(@AuthenticationPrincipal User user) {
-        List<Message> messages = messageService.getSentMessages(user.getId());
+    public ResponseEntity<List<Message>> getSentMessages(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        List<Message> messages = messageService.getSentMessages(userDetails.getUser().getId());
         return ResponseEntity.ok(messages);
     }
 }

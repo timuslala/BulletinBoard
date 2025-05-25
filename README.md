@@ -1,4 +1,4 @@
-Projekt na laboratoria z kursu: Projekt i implementacja systemów webowych
+#Projekt na laboratoria z kursu: Projekt i implementacja systemów webowych
 
 Specyfikacja:
 Tablica ogłoszeń drobnych

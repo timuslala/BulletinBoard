@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.back.Tag.Tag;
 import com.back.User.User;
 
@@ -27,7 +25,9 @@ public class Ad {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    private List<MultipartFile> images = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "ad_id")
+    private List<AdImage> images = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

@@ -5,6 +5,7 @@ package com.back.Ad;
 import com.back.Tag.Tag;
 import com.back.User.User;
 import com.back.Tag.TagRepository;
+import com.back.Tag.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class AdService {
     private final AdRepository adRepository;
     private final TagRepository tagRepository;
+    private final TagService tagService;
 
     public Ad createAd(User seller, String title, String description, List<MultipartFile> images, List<String> tagNames, boolean showEmail, boolean showPhone) {
         if (images != null && images.size() > 10) {
@@ -32,7 +34,7 @@ public class AdService {
         ad.setShowEmail(showEmail);
         ad.setShowPhone(showPhone);
         ad.setPreviewToken(UUID.randomUUID().toString());
-        ad.setTags(processTags(tagNames));
+        ad.setTags(tagService.processTags(tagNames));
         return adRepository.save(ad);
     }
 
@@ -50,7 +52,8 @@ public class AdService {
         ad.setImages(convertToImages(images));
         ad.setShowEmail(showEmail);
         ad.setShowPhone(showPhone);
-        ad.setTags(processTags(tagNames));
+        tagService.removeTags(ad.getTags());
+        ad.setTags(tagService.processTags(tagNames));
         return adRepository.save(ad);
     }
 
@@ -77,6 +80,7 @@ public class AdService {
         if (!ad.getSeller().getId().equals(seller.getId())) {
             throw new IllegalAccessError("Not authorized to delete this ad");
         }
+        tagService.removeTags(ad.getTags());
         adRepository.delete(ad);
     }
 
@@ -88,22 +92,6 @@ public class AdService {
         }
         ad.setStatus(status);
         return adRepository.save(ad);
-    }
-
-    private List<Tag> processTags(List<String> tagNames) {
-        List<Tag> tags = new ArrayList<>();
-        for (String name : tagNames) {
-            Tag tag = tagRepository.findByName(name);
-            if (tag == null) {
-                tag = new Tag();
-                tag.setName(name);
-                tag.setUsageCount(1);
-            } else {
-                tag.setUsageCount(tag.getUsageCount() + 1);
-            }
-            tags.add(tagRepository.save(tag));
-        }
-        return tags;
     }
 
     public List<Ad> searchAds(String query, String tag) {

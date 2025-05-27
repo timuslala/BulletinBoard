@@ -3,7 +3,6 @@ package com.back.Ad;
 
 
 import com.back.User.CustomUserDetails;
-import com.back.User.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

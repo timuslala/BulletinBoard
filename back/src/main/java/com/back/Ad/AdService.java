@@ -1,10 +1,7 @@
 package com.back.Ad;
 
 
-
-import com.back.Tag.Tag;
 import com.back.User.User;
-import com.back.Tag.TagRepository;
 import com.back.Tag.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +16,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AdService {
     private final AdRepository adRepository;
-    private final TagRepository tagRepository;
     private final TagService tagService;
 
     public Ad createAd(User seller, String title, String description, List<MultipartFile> images, List<String> tagNames, boolean showEmail, boolean showPhone) {

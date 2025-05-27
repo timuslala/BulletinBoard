@@ -31,4 +31,20 @@ public class MessageService {
     public List<Message> getSentMessages(Long userId) {
         return messageRepository.findBySenderId(userId);
     }
+
+    public List<User> getChatList(Long userId) {
+        List<Message> messages = messageRepository.findBySenderIdOrReceiverId(userId, userId);
+        return messages.stream()
+                .map(message -> message.getSender().getId().equals(userId) ? message.getReceiver() : message.getSender())
+                .distinct()
+                .toList();
+    }
+    public ChatPage getChatMessages(Long userId, Long chatUserId, Integer page, Integer size) {
+        if ((page != null && size == null) || (page == null && size != null)) {
+            throw new IllegalArgumentException("Both page and size parameters must be provided for pagination");
+        }
+        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
+        org.springframework.data.domain.Page<Message> pagedMessages = messageRepository.findConversationPaged(userId, chatUserId, pageable);
+        return ChatPage.fromPage(pagedMessages);
+    }
 }

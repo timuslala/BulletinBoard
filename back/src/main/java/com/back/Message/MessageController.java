@@ -28,15 +28,30 @@ public class MessageController {
         return ResponseEntity.ok(message);
     }
 
-    @GetMapping("/inbox")
+    @GetMapping("/inbox/all")
     public ResponseEntity<List<Message>> getInbox(@AuthenticationPrincipal CustomUserDetails userDetails) {
         List<Message> messages = messageService.getInbox(userDetails.getUser().getId());
         return ResponseEntity.ok(messages);
     }
-
-    @GetMapping("/sent")
+    //Wybierz sobie jak wolisz brac te wiadomosci na froncie, albo mi napisz jak chcesz, żebym zrobił ci backend
+    @GetMapping("/sent/all")
     public ResponseEntity<List<Message>> getSentMessages(@AuthenticationPrincipal CustomUserDetails userDetails) {
         List<Message> messages = messageService.getSentMessages(userDetails.getUser().getId());
+        return ResponseEntity.ok(messages);
+    }
+
+    @GetMapping("/chatlist")
+    public ResponseEntity<List<User>> getChatList(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        List<User> chatList = messageService.getChatList(userDetails.getUser().getId());
+        return ResponseEntity.ok(chatList);
+    }
+    @GetMapping("/chatlist/{userId}")
+    public ResponseEntity<ChatPage> getChatMessages(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long userId,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size) {
+        ChatPage messages = messageService.getChatMessages(userDetails.getUser().getId(), userId, page, size);
         return ResponseEntity.ok(messages);
     }
 }

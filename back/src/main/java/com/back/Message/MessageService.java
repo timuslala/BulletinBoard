@@ -43,8 +43,15 @@ public class MessageService {
         if ((page != null && size == null) || (page == null && size != null)) {
             throw new IllegalArgumentException("Both page and size parameters must be provided for pagination");
         }
-        org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
-        org.springframework.data.domain.Page<Message> pagedMessages = messageRepository.findConversationPaged(userId, chatUserId, pageable);
-        return ChatPage.fromPage(pagedMessages);
+        else if (page == null && size == null) {
+            List<Message> messages = messageRepository.findConversation(userId, chatUserId);
+            return ChatPage.fromList(messages);
+        } else {
+            page = page != null ? page : -99; // useless, bcs i checked above but i dont know how to turn off that warning otherwise
+            size = size != null ? size : -99;
+            org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
+            org.springframework.data.domain.Page<Message> pagedMessages = messageRepository.findConversationPaged(userId, chatUserId, pageable);
+            return ChatPage.fromPage(pagedMessages);
+        }
     }
 }

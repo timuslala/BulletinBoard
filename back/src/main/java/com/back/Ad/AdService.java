@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -80,11 +81,12 @@ public class AdService {
         adRepository.delete(ad);
     }
 
-    public Ad updateStatus(Long adId, User seller, AdStatus status) {
+    public Ad updateStatus(Long adId, User seller, AdStatus status)
+    throws AccessDeniedException {
         Ad ad = adRepository.findById(adId)
                 .orElseThrow(() -> new IllegalArgumentException("Ad not found"));
         if (!ad.getSeller().getId().equals(seller.getId())) {
-            throw new IllegalAccessError("Not authorized to update this ad");
+            throw new AccessDeniedException("Not authorized to update this ad");
         }
         ad.setStatus(status);
         return adRepository.save(ad);

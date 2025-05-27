@@ -63,8 +63,12 @@ public class AdController {
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long id,
             @RequestBody AdStatusDto request) {
-        Ad ad = adService.updateStatus(id, userDetails.getUser(), request.getStatus());
-        return ResponseEntity.ok(ad);
+        try {
+            Ad ad = adService.updateStatus(id, userDetails.getUser(), request.getStatus());
+            return ResponseEntity.ok(ad);
+        } catch (java.nio.file.AccessDeniedException ex) {
+            return ResponseEntity.status(403).build();
+        }
     }
 
     @GetMapping("/preview/{token}")

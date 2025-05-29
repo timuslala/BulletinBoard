@@ -1,0 +1,40 @@
+:host {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+  min-height: 100vh;
+  background: #f9f9f9;
+  box-sizing: border-box;
+}
+
+mat-card {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 16px;
+}
+
+.ad-image {
+  max-height: 400px;
+  object-fit: cover;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+mat-card-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.tags {
+  text-align: right;
+  font-size: 0.85rem;
+  color: #777;
+
+  span {
+    margin-left: 8px;
+  }
+}

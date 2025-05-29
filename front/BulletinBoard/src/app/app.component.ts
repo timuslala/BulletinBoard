@@ -12,11 +12,11 @@ import { HeaderComponent } from './components/header/header.component';
     </main>
   `,
   styles: [
-    `
-      main {
-        padding: 16px;
-      }
-    `,
+    // `
+    //   main {
+    //     padding: 16px;
+    //   }
+    // `,
   ],
 })
 export class AppComponent {

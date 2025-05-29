@@ -13,5 +13,11 @@ export const routes: Routes = [
         (m) => m.AdListPageComponent
       ),
   },
+  {
+    path: 'ads/:id',
+    loadComponent: () =>
+      import('./pages/ads/ad-detail-page/ad-detail-page.component').then(
+        (m) => m.AdDetailPageComponent
+      ),
+  },
 ];
-

@@ -1,4 +1,4 @@
 <h2>Ogłoszenia</h2>
-<div class="ads-grid">
-  <app-ad-card *ngFor="let ad of ads" [ad]="ad" />
+<div class="ads-container">
+  <app-ad-card *ngFor="let ad of ads()" [ad]="ad" />
 </div>

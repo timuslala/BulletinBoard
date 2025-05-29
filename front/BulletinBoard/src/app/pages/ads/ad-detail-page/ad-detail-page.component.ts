@@ -1,11 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { AdService } from '../../../services/ad.service';
+import { Ad } from '../../../models/ad.model';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-ad-detail-page',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, MatCardModule],
   templateUrl: './ad-detail-page.component.html',
-  styleUrl: './ad-detail-page.component.scss'
+  styleUrls: ['./ad-detail-page.component.scss'],
 })
-export class AdDetailPageComponent {
+export class AdDetailPageComponent implements OnInit {
+  ad: Ad | null = null;
 
+  constructor(private route: ActivatedRoute, private adService: AdService) {}
+
+  ngOnInit(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.adService.getAdById(id).subscribe((ad) => (this.ad = ad));
+  }
+
+  onImageClick() {
+    console.log('Kliknięto zdjęcie (tutaj ma być galeria)');
+  }
 }

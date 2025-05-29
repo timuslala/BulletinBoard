@@ -14,6 +14,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'ads/new',
+    loadComponent: () =>
+      import('./pages/ads/ad-form-page/ad-form-page.component').then(
+        (m) => m.AdFormPageComponent
+      ),
+  },
+  {
     path: 'ads/:id',
     loadComponent: () =>
       import('./pages/ads/ad-detail-page/ad-detail-page.component').then(

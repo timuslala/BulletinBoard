@@ -1,3 +1,9 @@
+export enum AdStatus {
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
+  ARCHIVED = 'ARCHIVED',
+}
+
 export interface Ad {
   id: number;
   title: string;
@@ -6,5 +12,5 @@ export interface Ad {
   showEmail: boolean;
   showPhone: boolean;
   imageUrl?: string;
-  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
+  status: AdStatus;
 }

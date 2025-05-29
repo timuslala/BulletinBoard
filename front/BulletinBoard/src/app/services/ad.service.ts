@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { Ad } from '../models/ad.model';
+import { Ad, AdStatus } from '../models/ad.model';
 
 @Injectable({ providedIn: 'root' })
 export class AdService {
@@ -19,7 +19,7 @@ export class AdService {
       showPhone: false,
       imageUrl:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Left_side_of_Flying_Pigeon.jpg/1280px-Left_side_of_Flying_Pigeon.jpg',
-      status: 'PUBLISHED',
+      status: AdStatus.PUBLISHED,
     },
     {
       id: 2,
@@ -30,7 +30,7 @@ export class AdService {
       showPhone: true,
       imageUrl:
         'https://ecsmedia.pl/cdn-cgi/image/format=webp,/c/pakiet-wiedzmin-tom-1-8-b-iext139878790.jpg',
-      status: 'PUBLISHED',
+      status: AdStatus.PUBLISHED,
     },
   ];
 
@@ -42,6 +42,13 @@ export class AdService {
     const ad = this.mockAds.find((ad) => ad.id === id);
     return of(ad || null); // używamy of() żeby zasymulować Observable
   }
+
+  addAd(ad: Ad): Observable<Ad> {
+  const newAd = { ...ad, id: this.mockAds.length + 1, status: AdStatus.PUBLISHED };
+  this.mockAds.push(newAd);
+  return of(newAd);
+}
+
 
   createAd(ad: Ad, photos: File[]): Observable<Ad> {
     const formData = new FormData();

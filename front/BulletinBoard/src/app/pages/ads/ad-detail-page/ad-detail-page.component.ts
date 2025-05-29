@@ -3,12 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AdService } from '../../../services/ad.service';
 import { Ad } from '../../../models/ad.model';
-import { MatCardModule } from '@angular/material/card';
+import { AdDetailComponent } from '../../../components/ads/ad-detail/ad-detail.component';
 
 @Component({
   selector: 'app-ad-detail-page',
   standalone: true,
-  imports: [CommonModule, MatCardModule],
+  imports: [CommonModule, AdDetailComponent],
   templateUrl: './ad-detail-page.component.html',
   styleUrls: ['./ad-detail-page.component.scss'],
 })
@@ -20,9 +20,5 @@ export class AdDetailPageComponent implements OnInit {
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.adService.getAdById(id).subscribe((ad) => (this.ad = ad));
-  }
-
-  onImageClick() {
-    console.log('Kliknięto zdjęcie (tutaj ma być galeria)');
   }
 }

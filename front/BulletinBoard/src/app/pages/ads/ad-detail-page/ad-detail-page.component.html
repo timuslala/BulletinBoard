@@ -1,31 +1,5 @@
 <ng-container *ngIf="ad; else notFound">
-  <mat-card>
-    <img
-      *ngIf="ad.imageUrl"
-      class="ad-image"
-      [src]="ad.imageUrl"
-      alt="Zdjęcie ogłoszenia"
-      (click)="onImageClick()"
-    />
-    <mat-card-header>
-      <mat-card-title>{{ ad.title }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>{{ ad.description }}</p>
-      <p>
-        <strong>Tagi:</strong>
-        <span *ngFor="let tag of ad.tags">#{{ tag }} </span>
-      </p>
-      <p *ngIf="ad.showEmail">
-        <!-- @TODO: Change to user.email -->
-        <strong>Email kontaktowy:</strong> user&#64;example.com
-      </p>
-      <p *ngIf="ad.showPhone">
-        <!-- @TODO: Change to user.phone -->
-        <strong>Telefon kontaktowy:</strong> 123-456-789
-      </p>
-    </mat-card-content>
-  </mat-card>
+  <app-ad-detail [ad]="ad" />
 </ng-container>
 
 <ng-template #notFound>

@@ -1,0 +1,25 @@
+<ng-container *ngIf="ad">
+  <div class="ad-container">
+    <img
+      *ngIf="ad.imageUrl"
+      class="ad-image"
+      [src]="ad.imageUrl"
+      alt="Zdjęcie ogłoszenia"
+      (click)="onImageClick()"
+    />
+    <h1 class="ad-title">{{ ad.title }}</h1>
+    <p>{{ ad.description }}</p>
+    <p class="tags">
+      <strong>Tagi:</strong>
+      <span *ngFor="let tag of ad.tags">#{{ tag }} </span>
+    </p>
+    <p *ngIf="ad.showEmail">
+      <!-- @TODO: Change to user.email -->
+      <strong>Email kontaktowy:</strong> user&#64;example.com
+    </p>
+    <p *ngIf="ad.showPhone">
+      <!-- @TODO: Change to user.phone -->
+      <strong>Telefon kontaktowy:</strong> 123-456-789
+    </p>
+  </div>
+</ng-container>

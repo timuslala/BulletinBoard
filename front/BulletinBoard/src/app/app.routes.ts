@@ -4,11 +4,14 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    loadComponent: () => {
-      // @TODO: Change to homePage
-      return import('./components/message/message.component').then(
-        (m) => m.MessageComponent
-      );
-    },
+    redirectTo: 'ads',
+  },
+  {
+    path: 'ads',
+    loadComponent: () =>
+      import('./pages/ads/ad-list-page/ad-list-page.component').then(
+        (m) => m.AdListPageComponent
+      ),
   },
 ];
+

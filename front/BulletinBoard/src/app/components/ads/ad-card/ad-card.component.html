@@ -1,1 +1,13 @@
-<p>ad-card works!</p>
+<mat-card>
+  <img *ngIf="ad.imageUrl" mat-card-image [src]="ad.imageUrl" alt="Ogłoszenie" />
+  <mat-card-header>
+    <mat-card-title>{{ ad.title }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{ ad.description }}</p>
+    <p>
+      <strong>Tagi:</strong>
+      <span *ngFor="let tag of ad.tags">#{{ tag }} </span>
+    </p>
+  </mat-card-content>
+</mat-card>

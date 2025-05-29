@@ -1,1 +1,4 @@
-<p>ad-list-page works!</p>
+<h2>Ogłoszenia</h2>
+<div class="ads-grid">
+  <app-ad-card *ngFor="let ad of ads" [ad]="ad" />
+</div>

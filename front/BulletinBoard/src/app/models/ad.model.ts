@@ -1,9 +1,10 @@
 export interface Ad {
-  id?: number;
+  id: number;
   title: string;
   description: string;
   tags: string[];
   showEmail: boolean;
   showPhone: boolean;
-  images?: File[]; 
+  imageUrl?: string;
+  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 }

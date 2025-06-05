@@ -13,7 +13,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { TagsService } from '../../../services/tags.service';
+import { AdPreviewDialogComponent } from '../ad-preview-dialog/ad-preview-dialog.component';
 
 @Component({
   selector: 'app-ad-form',
@@ -28,6 +30,7 @@ import { TagsService } from '../../../services/tags.service';
     MatButtonModule,
     MatChipsModule,
     MatIconModule,
+    MatDialogModule,
   ],
   templateUrl: './ad-form.component.html',
   styleUrls: ['./ad-form.component.scss'],
@@ -38,7 +41,11 @@ export class AdFormComponent {
   form: FormGroup;
   availableTags: string[] = [];
 
-  constructor(private fb: FormBuilder, private tagsService: TagsService) {
+  constructor(
+    private fb: FormBuilder,
+    private tagsService: TagsService,
+    private dialog: MatDialog
+  ) {
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(5)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
@@ -77,5 +84,13 @@ export class AdFormComponent {
   removeTag(tag: string) {
     const tags = this.form.value.tags.filter((t: string) => t !== tag);
     this.form.patchValue({ tags });
+  }
+
+  openPreview() {
+    this.dialog.open(AdPreviewDialogComponent, {
+      data: this.form.value,
+      width: '900px',
+      maxWidth: '900px'
+    });
   }
 }

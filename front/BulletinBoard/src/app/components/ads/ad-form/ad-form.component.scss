@@ -52,9 +52,15 @@
     margin-right: 16px;
   }
 
-  button[type="submit"] {
-    align-self: flex-end;
-    margin-top: 8px;
+  .button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+
+    button[type="submit"] {
+      align-self: flex-end;
+      margin-top: 8px;
+    }
   }
 }
 

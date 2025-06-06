@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MessagesInboxComponent } from '../../../components/messages/messages-inbox/messages-inbox.component';
 
 @Component({
   selector: 'app-inbox-page',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, MessagesInboxComponent],
   templateUrl: './inbox-page.component.html',
-  styleUrl: './inbox-page.component.scss'
+  styleUrls: ['./inbox-page.component.scss'],
 })
-export class InboxPageComponent {
-
-}
+export class InboxPageComponent {}

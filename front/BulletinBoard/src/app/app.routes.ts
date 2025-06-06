@@ -27,4 +27,18 @@ export const routes: Routes = [
         (m) => m.AdDetailPageComponent
       ),
   },
+  {
+    path: 'inbox',
+    loadComponent: () =>
+      import('./pages/messages/inbox-page/inbox-page.component').then(
+        (m) => m.InboxPageComponent
+      ),
+  },
+  {
+    path: 'inbox/conversation/:id',
+    loadComponent: () =>
+      import('./pages/messages/messages-conversation/messages-conversation.component').then(
+        (m) => m.MessagesConversationPageComponent
+      ),
+  },
 ];

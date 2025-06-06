@@ -1,0 +1,9 @@
+<div *ngIf="conversation() as conv">
+  <h2>Rozmowa z {{ conv.name }}</h2>
+  <mat-card *ngFor="let msg of conv.messages">
+    <mat-card-content>
+      <strong>{{ msg.sender }}:</strong> {{ msg.text }}
+      <div class="timestamp">{{ msg.timestamp | date : "short" }}</div>
+    </mat-card-content>
+  </mat-card>
+</div>

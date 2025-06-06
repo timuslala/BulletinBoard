@@ -1,9 +1,14 @@
-export interface Ad {
-  id?: number;
-  title: string;
-  description: string;
-  tags: string[];
-  showEmail: boolean;
-  showPhone: boolean;
-  images?: File[]; 
+export interface Conversation {
+  id: number;
+  name: string;
+  lastMessage: string;
+  messages: Message[];
+}
+
+export interface Message {
+  id: number;
+  conversationId: number;
+  sender: string;
+  text: string;
+  timestamp: string;
 }

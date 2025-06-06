@@ -1,0 +1,15 @@
+<mat-list>
+  <a
+    mat-list-item
+    *ngFor="let conversation of conversations()"
+    [routerLink]="['/inbox/conversation', conversation.id]"
+  >
+    <div class="conversation-row">
+      <mat-icon class="conversation-icon">person</mat-icon>
+      <div class="conversation-details">
+        <div class="conversation-name">{{ conversation.name }}</div>
+        <div class="last-message">{{ conversation.lastMessage }}</div>
+      </div>
+    </div>
+  </a>
+</mat-list>

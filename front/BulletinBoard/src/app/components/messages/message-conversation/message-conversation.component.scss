@@ -1,0 +1,13 @@
+:host {
+  display: block;
+
+  mat-card {
+    margin-bottom: 8px;
+
+    .timestamp {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
+  }
+}

@@ -1,34 +1,89 @@
 header {
-  display: flex;
-  padding-inline: 16px;
-  padding-block: 8px;
   background-color: #333;
   color: white;
-  align-items: center;
-  justify-content: space-between;
+  padding: 8px 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  margin-bottom: 16px;
 
   nav {
-    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    gap: 24px;
 
-    > span {
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
       cursor: pointer;
+      user-select: none;
+      color: white;
+      text-decoration: none;
+
       &:hover {
         color: #777;
       }
     }
 
-    ul {
+    .nav-links {
       list-style: none;
+      display: flex;
+      gap: 24px;
+      margin: 0;
+      padding: 0;
 
       li {
-        cursor: pointer;
-        &:hover {
-          color: #777;
+        a {
+          color: white;
+          text-decoration: none;
+          font-weight: 500;
+          font-size: 1rem;
+          padding: 4px 8px;
+          border-radius: 4px;
+          transition: background-color 0.3s, color 0.3s;
+
+          &.active,
+          &:hover {
+            background-color: #555;
+            color: #ddd;
+          }
         }
       }
+    }
+
+    .btn-add-ad {
+      background-color: #007acc;
+      border: none;
+      padding: 8px 16px;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #005fa3;
+      }
+    }
+  }
+}
+
+/* Responsive - na mniejszych ekranach np. pod stack */
+@media (max-width: 600px) {
+  header nav {
+    flex-direction: column;
+    gap: 12px;
+
+    .nav-links {
+      gap: 12px;
+    }
+
+    .btn-add-ad {
+      width: 100%;
+      text-align: center;
     }
   }
 }

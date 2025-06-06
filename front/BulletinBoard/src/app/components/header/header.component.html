@@ -1,8 +1,10 @@
 <header>
   <nav>
-    <span routerLink="/">{{ title() }}</span>
-    <ul>
-      <li routerLink="/todos">Todos</li>
+    <span routerLink="/" class="logo">{{ title() }}</span>
+    <ul class="nav-links">
+      <li><a routerLink="/ads" routerLinkActive="active">Ogłoszenia</a></li>
+      <li><a routerLink="/inbox" routerLinkActive="active">Skrzynka</a></li>
     </ul>
+    <button routerLink="/ads/new" class="btn-add-ad">Dodaj ogłoszenie</button>
   </nav>
 </header>

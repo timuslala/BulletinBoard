@@ -1,4 +1,4 @@
-package com.back.Message;
+package com.back.message;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

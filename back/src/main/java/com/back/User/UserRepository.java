@@ -1,4 +1,4 @@
-package com.back.User;
+package com.back.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

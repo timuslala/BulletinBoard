@@ -1,7 +1,12 @@
 package com.back.Ad;
 
-import com.back.User.CustomUserDetails;
-import com.back.User.User;
+import com.back.ad.Ad;
+import com.back.ad.AdDto;
+import com.back.ad.AdService;
+import com.back.ad.AdStatus;
+import com.back.ad.AdStatusDto;
+import com.back.user.CustomUserDetails;
+import com.back.user.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

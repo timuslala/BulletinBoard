@@ -1,8 +1,9 @@
-package com.back.Message;
+package com.back.message;
 
-import com.back.User.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import com.back.user.User;
 
 import java.util.List;
 

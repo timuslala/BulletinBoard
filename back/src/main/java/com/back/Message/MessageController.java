@@ -1,11 +1,12 @@
-package com.back.Message;
+package com.back.message;
 
-import com.back.User.CustomUserDetails;
-import com.back.User.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import com.back.user.CustomUserDetails;
+import com.back.user.User;
 
 import java.util.List;
 

@@ -1,6 +1,12 @@
 package com.back.Ad;
 
-import com.back.User.User;
+import com.back.ad.Ad;
+import com.back.ad.AdRepository;
+import com.back.ad.AdService;
+import com.back.ad.AdStatus;
+import com.back.tag.TagService;
+import com.back.user.User;
+
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +18,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.web.multipart.MultipartFile;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
-import com.back.Tag.TagService;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)

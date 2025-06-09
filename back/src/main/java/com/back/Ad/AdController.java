@@ -1,12 +1,13 @@
-package com.back.Ad;
+package com.back.ad;
 
 
 
-import com.back.User.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import com.back.user.CustomUserDetails;
 
 import java.util.List;
 
@@ -87,7 +88,7 @@ public class AdController {
 
     @GetMapping("/my")
     public ResponseEntity<List<Ad>> getMyAds(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        com.back.User.User user = userDetails.getUser();
+        com.back.user.User user = userDetails.getUser();
         List<Ad> ads = adService.getAdsBySeller(user.getId());
         return ResponseEntity.ok(ads);
     }

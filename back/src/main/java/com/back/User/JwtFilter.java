@@ -1,4 +1,4 @@
-package com.back.User;
+package com.back.user;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

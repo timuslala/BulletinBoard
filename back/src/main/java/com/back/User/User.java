@@ -1,4 +1,4 @@
-package com.back.User;
+package com.back.user;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.back.Ad.Ad;
-import com.back.Message.Message;
+import com.back.ad.Ad;
+import com.back.message.Message;
 
 @Data
 @NoArgsConstructor

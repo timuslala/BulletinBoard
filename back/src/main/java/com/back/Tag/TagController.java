@@ -1,4 +1,4 @@
-package com.back.Tag;
+package com.back.tag;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

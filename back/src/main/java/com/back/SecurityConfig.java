@@ -15,9 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.back.User.JwtFilter;
-import com.back.User.UserRepository;
-import com.back.User.UserService;
+import com.back.user.JwtFilter;
+import com.back.user.UserRepository;
+import com.back.user.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -49,11 +49,11 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
         return username -> {
-            com.back.User.User user = userRepository.findByUsername(username);
+            com.back.user.User user = userRepository.findByUsername(username);
             if (user == null) {
                 throw new UsernameNotFoundException("User not found");
             }
-            return new com.back.User.CustomUserDetails(user);
+            return new com.back.user.CustomUserDetails(user);
         };
     }
         @Bean

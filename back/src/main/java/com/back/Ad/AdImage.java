@@ -1,4 +1,4 @@
-package com.back.Ad;
+package com.back.ad;
 
 import jakarta.persistence.*;
 import lombok.Data;

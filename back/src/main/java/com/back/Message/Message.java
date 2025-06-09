@@ -1,11 +1,11 @@
-package com.back.Message;
+package com.back.message;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-import com.back.User.User;
+import com.back.user.User;
 @Data
 @NoArgsConstructor
 @Entity

@@ -1,9 +1,9 @@
-package com.back.Ad;
+package com.back.ad;
 
 
-import com.back.User.User;
+import com.back.tag.TagService;
+import com.back.user.User;
 
-import com.back.Tag.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

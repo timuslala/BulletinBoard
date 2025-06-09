@@ -1,4 +1,4 @@
-package com.back.Ad;
+package com.back.ad;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.back.Tag.Tag;
-import com.back.User.User;
+import com.back.tag.Tag;
+import com.back.user.User;
 
 @Data
 @NoArgsConstructor

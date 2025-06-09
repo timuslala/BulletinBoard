@@ -1,4 +1,4 @@
-package com.back.Ad;
+package com.back.ad;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

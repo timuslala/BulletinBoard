@@ -14,6 +14,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'login',
+    loadComponent: () =>
+      import('./pages/auth/login-page/login-page.component').then(
+        (m) => m.LoginPageComponent
+      ),
+  },
+  {
     path: 'ads',
     loadComponent: () =>
       import('./pages/ads/ad-list-page/ad-list-page.component').then(

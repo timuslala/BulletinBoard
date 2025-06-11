@@ -1,0 +1,29 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-form-field appearance="fill">
+    <mat-label>Nazwa użytkownika</mat-label>
+    <input matInput formControlName="username" required />
+    <mat-error *ngIf="form.get('username')?.hasError('required')">
+      Nazwa użytkownika jest wymagana.
+    </mat-error>
+    <mat-error *ngIf="form.get('username')?.hasError('minlength')">
+      Nazwa użytkownika musi mieć co najmniej 4 znaki.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Hasło</mat-label>
+    <input matInput type="password" formControlName="password" required />
+    <mat-error *ngIf="form.get('password')?.hasError('required')">
+      Hasło jest wymagane.
+    </mat-error>
+    <mat-error *ngIf="form.get('password')?.hasError('minlength')">
+      Hasło musi mieć co najmniej 4 znaki.
+    </mat-error>
+  </mat-form-field>
+
+  <div class="button-group">
+    <button mat-raised-button color="primary" type="submit">
+      Zaloguj się
+    </button>
+  </div>
+</form>

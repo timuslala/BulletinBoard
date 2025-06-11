@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,7 @@ import { Observable, tap } from 'rxjs';
 export class AuthService {
   private apiUrl = 'http://localhost:8080/api/users';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private tokenService: TokenService) {}
 
   register(userData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, userData);
@@ -19,32 +20,16 @@ export class AuthService {
       .post<{ token: string }>(`${this.apiUrl}/login`, credentials)
       .pipe(
         tap((response) => {
-          localStorage.setItem('token', response.token);
+          this.tokenService.setToken(response.token);
         })
       );
   }
 
   logout() {
-    localStorage.removeItem('token');
+    this.tokenService.removeToken();
   }
 
   getToken(): string | null {
-    return localStorage.getItem('token');
+    return this.tokenService.getToken();
   }
-
-  // login(credentials: { username: string; password: string }): Observable<any> {
-  //   return this.http.post(`${this.apiUrl}/login`, credentials);
-  // }
-
-  // saveToken(token: string): void {
-  //   localStorage.setItem('authToken', token);
-  // }
-
-  // getToken(): string | null {
-  //   return localStorage.getItem('authToken');
-  // }
-
-  // logout(): void {
-  //   localStorage.removeItem('authToken');
-  // }
 }

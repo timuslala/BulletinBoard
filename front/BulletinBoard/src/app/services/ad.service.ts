@@ -2,10 +2,12 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Ad, AdStatus } from '../models/ad.model';
+import { TokenService } from './token.service';
 
 @Injectable({ providedIn: 'root' })
 export class AdService {
-  private apiUrl = '/api/ads';
+  private apiUrl = 'http://localhost:8080/api/ads';
+  private tokenService = inject(TokenService);
 
   http = inject(HttpClient);
 
@@ -34,8 +36,28 @@ export class AdService {
     },
   ];
 
+  private getAuthHeaders() {
+    const token = this.tokenService.getToken();
+    console.log(token);
+    return {
+      Authorization: `Bearer ${token || ''}`,
+    };
+  }
+
   getAllAds(): Observable<Ad[]> {
-    return of(this.mockAds); // można później łatwo zastąpić this.http.get(...)
+    const headers = this.getAuthHeaders();
+    const params = new HttpParams().set('query', '').set('tag', '');
+
+    // const test = this.http.get<Ad[]>(`${this.apiUrl}/my`, {
+    //   headers,
+    //   params,
+    // });
+    // test.subscribe((data) => {
+    //   console.log(data);
+    //   this.mockAds = data;
+    // });
+
+    return this.http.get<Ad[]>(`${this.apiUrl}/search`, { headers, params });
   }
 
   getAdById(id: number) {
@@ -44,11 +66,14 @@ export class AdService {
   }
 
   addAd(ad: Ad): Observable<Ad> {
-  const newAd = { ...ad, id: this.mockAds.length + 1, status: AdStatus.PUBLISHED };
-  this.mockAds.push(newAd);
-  return of(newAd);
-}
-
+    const newAd = {
+      ...ad,
+      id: this.mockAds.length + 1,
+      status: AdStatus.PUBLISHED,
+    };
+    this.mockAds.push(newAd);
+    return of(newAd);
+  }
 
   createAd(ad: Ad, photos: File[]): Observable<Ad> {
     const formData = new FormData();
@@ -58,18 +83,5 @@ export class AdService {
     );
     photos.forEach((photo) => formData.append('photos', photo));
     return this.http.post<Ad>(this.apiUrl, formData);
-  }
-
-  searchAds(
-    query: string = '',
-    tag: string = '',
-    page = 0,
-    size = 10
-  ): Observable<any> {
-    // @TODO: Observable<Ad>
-    let params = new HttpParams().set('page', page).set('size', size);
-    if (query) params = params.set('query', query);
-    if (tag) params = params.set('tag', tag);
-    return this.http.get<any>(`${this.apiUrl}/search`, { params });
   }
 }

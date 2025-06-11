@@ -18,7 +18,10 @@ export class AdListPageComponent {
 
   constructor() {
     effect(() => {
-      this.adService.getAllAds().subscribe((data) => this.ads.set(data));
+      this.adService.getAllAds().subscribe((data) => {
+        this.ads.set(data);
+        console.log(data);
+      });
     });
   }
 }

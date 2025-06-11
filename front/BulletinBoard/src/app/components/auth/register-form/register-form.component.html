@@ -1,0 +1,46 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Nazwa użytkownika</mat-label>
+    <input matInput formControlName="username" required />
+    <mat-error *ngIf="form.get('username')?.hasError('required')">
+      Nazwa użytkownika jest wymagana.
+    </mat-error>
+    <mat-error *ngIf="form.get('username')?.hasError('minlength')">
+      Musi mieć co najmniej 3 znaki.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Hasło</mat-label>
+    <input matInput formControlName="password" type="password" required />
+    <mat-error *ngIf="form.get('password')?.hasError('required')">
+      Hasło jest wymagane.
+    </mat-error>
+    <mat-error *ngIf="form.get('password')?.hasError('minlength')">
+      Musi mieć co najmniej 6 znaków.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" required />
+    <mat-error *ngIf="form.get('email')?.hasError('required')">
+      Email jest wymagany.
+    </mat-error>
+    <mat-error *ngIf="form.get('email')?.hasError('email')">
+      Wprowadź poprawny email.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Telefon (opcjonalnie)</mat-label>
+    <input matInput formControlName="phone" />
+    <mat-error *ngIf="form.get('phone')?.hasError('pattern')">
+      Wprowadź poprawny numer telefonu (np. +48123456789).
+    </mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">
+    Zarejestruj się
+  </button>
+</form>

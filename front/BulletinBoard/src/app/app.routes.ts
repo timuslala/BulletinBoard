@@ -7,6 +7,13 @@ export const routes: Routes = [
     redirectTo: 'ads',
   },
   {
+    path: 'register',
+    loadComponent: () =>
+      import('./pages/auth/register-page/register-page.component').then(
+        (m) => m.RegisterPageComponent
+      ),
+  },
+  {
     path: 'ads',
     loadComponent: () =>
       import('./pages/ads/ad-list-page/ad-list-page.component').then(
@@ -37,8 +44,8 @@ export const routes: Routes = [
   {
     path: 'inbox/conversation/:id',
     loadComponent: () =>
-      import('./pages/messages/messages-conversation/messages-conversation.component').then(
-        (m) => m.MessagesConversationPageComponent
-      ),
+      import(
+        './pages/messages/messages-conversation/messages-conversation.component'
+      ).then((m) => m.MessagesConversationPageComponent),
   },
 ];

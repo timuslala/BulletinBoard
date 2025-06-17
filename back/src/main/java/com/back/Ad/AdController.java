@@ -18,10 +18,10 @@ public class AdController {
     private final AdService adService;
 
     @PostMapping
-    public ResponseEntity<Ad> createAd(
+    public ResponseEntity<AdDto> createAd(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody AdDto request) {
-        Ad ad = adService.createAd(
+        AdDto ad = adService.createAd(
                 userDetails.getUser(),
                 request.getTitle(),
                 request.getDescription(),
@@ -34,11 +34,11 @@ public class AdController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Ad> updateAd(
+    public ResponseEntity<AdDto> updateAd(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long id,
             @RequestBody AdDto request) {
-        Ad ad = adService.updateAd(
+        AdDto ad = adService.updateAd(
                 id,
                 userDetails.getUser(),
                 request.getTitle(),
@@ -60,12 +60,12 @@ public class AdController {
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<Ad> updateStatus(
+    public ResponseEntity<AdDto> updateStatus(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable Long id,
             @RequestBody AdStatusDto request) {
         try {
-            Ad ad = adService.updateStatus(id, userDetails.getUser(), request.getStatus());
+            AdDto ad = adService.updateStatus(id, userDetails.getUser(), request.getStatus()).toDto();
             return ResponseEntity.ok(ad);
         } catch (java.nio.file.AccessDeniedException ex) {
             return ResponseEntity.status(403).build();
@@ -73,23 +73,29 @@ public class AdController {
     }
 
     @GetMapping("/preview/{token}")
-    public ResponseEntity<Ad> previewAd(@PathVariable String token) {
-        Ad ad = adService.getAdByPreviewToken(token);
+    public ResponseEntity<AdDto> previewAd(@PathVariable String token) {
+        AdDto ad = adService.getAdByPreviewToken(token).toDto();
         return ResponseEntity.ok(ad);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Ad>> searchAds(
+    public ResponseEntity<List<AdDto>> searchAds(
             @RequestParam(required = false) String query,
             @RequestParam(required = false) String tag) {
-        List<Ad> ads = adService.searchAds(query, tag);
+        List<AdDto> ads = adService.searchAds(query, tag)
+                .stream()
+                .map(Ad::toDto)
+                .toList();
         return ResponseEntity.ok(ads);
     }
 
     @GetMapping("/my")
-    public ResponseEntity<List<Ad>> getMyAds(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<List<AdDto>> getMyAds(@AuthenticationPrincipal CustomUserDetails userDetails) {
         com.back.user.User user = userDetails.getUser();
-        List<Ad> ads = adService.getAdsBySeller(user.getId());
+        List<AdDto> ads = adService.getAdsBySeller(user.getId())
+                .stream()
+                .map(Ad::toDto)
+                .toList();
         return ResponseEntity.ok(ads);
     }
 }

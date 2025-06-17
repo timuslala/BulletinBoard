@@ -27,7 +27,7 @@ public class Ad {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ad_id")
-    private List<AdImage> images = new ArrayList<>();
+    private List<String> images = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -49,4 +49,29 @@ public class Ad {
 
     private boolean showEmail;
     private boolean showPhone;
+    public Ad(User seller, String title, String description, List<String> images, List<Tag> tags, boolean showEmail, boolean showPhone) {
+        this.seller = seller;
+        this.title = title;
+        this.description = description;
+        this.images = images != null ? images : new ArrayList<>();
+        this.tags = tags != null ? tags : new ArrayList<>();
+        this.showEmail = showEmail;
+        this.showPhone = showPhone;
+    }
+    public AdDto toDto() {
+        AdDto dto = new AdDto();
+        dto.setTitle(this.title);
+        dto.setDescription(this.description);
+        dto.setImages(new ArrayList<>());
+        for (String image : this.images) {
+            dto.getImages().add(image);
+        }
+        dto.setTags(new ArrayList<>());
+        for (Tag tag : this.tags) {
+            dto.getTags().add(tag.getName());
+        }
+        dto.setShowEmail(this.showEmail);
+        dto.setShowPhone(this.showPhone);
+        return dto;
+    }
 }

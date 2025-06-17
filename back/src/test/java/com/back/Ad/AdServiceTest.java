@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.web.multipart.MultipartFile;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -36,10 +35,7 @@ public class AdServiceTest {
     public void createAd_throwsException_whenMoreThan10Images() {
         // given
         User seller = new User();
-        List<MultipartFile> images = new ArrayList<>();
-        for (int i = 0; i < 11; i++) {
-            images.add(org.mockito.Mockito.mock(MultipartFile.class));
-        }
+        List<String> images = new ArrayList<>();
         List<String> tagNames = new ArrayList<>();
 
         // when & then

@@ -6,11 +6,7 @@ import com.back.user.User;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.nio.file.AccessDeniedException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,7 +16,7 @@ public class AdService {
     private final AdRepository adRepository;
     private final TagService tagService;
 
-    public Ad createAd(User seller, String title, String description, List<MultipartFile> images, List<String> tagNames, boolean showEmail, boolean showPhone) {
+    public AdDto createAd(User seller, String title, String description, List<String> images, List<String> tagNames, boolean showEmail, boolean showPhone) {
         if (images != null && images.size() > 10) {
             throw new IllegalArgumentException("Maximum 10 images allowed");
         }
@@ -28,15 +24,15 @@ public class AdService {
         ad.setSeller(seller);
         ad.setTitle(title);
         ad.setDescription(description);
-        ad.setImages(convertToImages(images));
+        ad.setImages(images);
         ad.setShowEmail(showEmail);
         ad.setShowPhone(showPhone);
         ad.setPreviewToken(UUID.randomUUID().toString());
         ad.setTags(tagService.processTags(tagNames));
-        return adRepository.save(ad);
+        return adRepository.save(ad).toDto();
     }
 
-    public Ad updateAd(Long adId, User seller, String title, String description, List<MultipartFile> images, List<String> tagNames, boolean showEmail, boolean showPhone) {
+    public AdDto updateAd(Long adId, User seller, String title, String description, List<String> images, List<String> tagNames, boolean showEmail, boolean showPhone) {
         Ad ad = adRepository.findById(adId)
                 .orElseThrow(() -> new IllegalArgumentException("Ad not found"));
         if (!ad.getSeller().getId().equals(seller.getId())) {
@@ -47,29 +43,12 @@ public class AdService {
         }
         ad.setTitle(title);
         ad.setDescription(description);
-        ad.setImages(convertToImages(images));
+        ad.setImages(images);
         ad.setShowEmail(showEmail);
         ad.setShowPhone(showPhone);
         tagService.removeTags(ad.getTags());
         ad.setTags(tagService.processTags(tagNames));
-        return adRepository.save(ad);
-    }
-
-    private List<AdImage> convertToImages(List<MultipartFile> images) {
-        List<AdImage> photos = new ArrayList<>();
-        if (images != null) {
-            for (MultipartFile file : images) {
-                try {
-                    AdImage photo = new AdImage();
-                    photo.setData(file.getBytes());
-                    photo.setContentType(file.getContentType());
-                    photos.add(photo);
-                } catch (IOException e) {
-                    throw new RuntimeException("Failed to process image", e);
-                }
-            }
-        }
-        return photos;
+        return adRepository.save(ad).toDto();
     }
 
     public void deleteAd(Long adId, User seller) {
@@ -107,4 +86,6 @@ public class AdService {
     public List<Ad> getAdsBySeller(Long sellerId) {
         return adRepository.findBySellerId(sellerId);
     }
+
+
 }

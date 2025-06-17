@@ -32,6 +32,12 @@ public class AdService {
         return adRepository.save(ad).toDto();
     }
 
+    public AdDto getAdById(Long adId) {
+        return adRepository.findById(adId)
+                .orElseThrow(() -> new IllegalArgumentException("Ad not found"))
+                .toDto();
+    }
+    
     public AdDto updateAd(Long adId, User seller, String title, String description, List<String> images, List<String> tagNames, boolean showEmail, boolean showPhone) {
         Ad ad = adRepository.findById(adId)
                 .orElseThrow(() -> new IllegalArgumentException("Ad not found"));

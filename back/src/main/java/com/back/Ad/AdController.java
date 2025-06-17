@@ -33,6 +33,12 @@ public class AdController {
         return ResponseEntity.ok(ad);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<AdDto> getAdById(@PathVariable Long id) {
+        AdDto ad = adService.getAdById(id);
+        return ResponseEntity.ok(ad);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<AdDto> updateAd(
             @AuthenticationPrincipal CustomUserDetails userDetails,

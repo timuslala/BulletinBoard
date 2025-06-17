@@ -18,4 +18,10 @@ public class Tag {
     private String name;
 
     private int usageCount;
+    public TagDto toDto() {
+        TagDto tagDto = new TagDto();
+        tagDto.setName(this.name);
+        tagDto.setUsageCount(this.usageCount);
+        return tagDto;
+    }
 }

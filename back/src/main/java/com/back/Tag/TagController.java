@@ -16,8 +16,10 @@ public class TagController {
     private final TagService tagService;
 
     @GetMapping("/suggest")
-    public ResponseEntity<List<Tag>> suggestTags(@RequestParam String prefix) {
-        List<Tag> tags = tagService.suggestTags(prefix);
+    public ResponseEntity<List<TagDto>> suggestTags(@RequestParam String prefix) {
+        List<TagDto> tags = tagService.suggestTags(prefix).stream()
+                .map(Tag::toDto)
+                .toList();
         return ResponseEntity.ok(tags);
     }
 }

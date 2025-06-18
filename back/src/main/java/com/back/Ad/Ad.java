@@ -25,8 +25,7 @@ public class Ad {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ad_id")
+    @ElementCollection
     private List<String> images = new ArrayList<>();
 
     @ManyToMany

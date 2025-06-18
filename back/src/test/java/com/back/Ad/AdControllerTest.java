@@ -54,15 +54,9 @@ public class AdControllerTest {
 		adDto.setShowEmail(true);
 		adDto.setShowPhone(false);
 
-		Ad ad = new Ad();
-		ad.setId(1L);
-		ad.setTitle("Test Title");
-		ad.setDescription("Test Description");
-		ad.setShowEmail(true);
-		ad.setShowPhone(false);
 
 		org.mockito.Mockito.when(adService.createAd(any(User.class), anyString(), anyString(), anyList(), anyList(), anyBoolean(), anyBoolean()))
-				.thenReturn(ad);
+				.thenReturn(adDto);
 
 		mockMvc.perform(post("/api/ads")
 				.with(SecurityMockMvcRequestPostProcessors.user(getMockUserDetails()))
@@ -85,15 +79,8 @@ public class AdControllerTest {
 		adDto.setShowEmail(false);
 		adDto.setShowPhone(true);
 
-		Ad ad = new Ad();
-		ad.setId(2L);
-		ad.setTitle("Updated Title");
-		ad.setDescription("Updated Description");
-		ad.setShowEmail(false);
-		ad.setShowPhone(true);
-
 		when(adService.updateAd(eq(2L), any(User.class), anyString(), anyString(), anyList(), anyList(), anyBoolean(), anyBoolean()))
-				.thenReturn(ad);
+				.thenReturn(adDto);
 
 		mockMvc.perform(put("/api/ads/2")
 				.with(SecurityMockMvcRequestPostProcessors.user(getMockUserDetails()))

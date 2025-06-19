@@ -1,5 +1,5 @@
 <ng-container *ngIf="ad; else notFound">
-  <app-ad-detail [ad]="ad" />
+  <app-ad-detail [ad]="ad()" />
 </ng-container>
 
 <ng-template #notFound>

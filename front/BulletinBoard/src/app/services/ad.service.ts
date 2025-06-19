@@ -38,7 +38,7 @@ export class AdService {
 
   private getAuthHeaders() {
     const token = this.tokenService.getToken();
-    console.log(token);
+    console.log(`Token ${token || "BRAK TOKENA"}`);
     return {
       Authorization: `Bearer ${token || ''}`,
     };
@@ -60,9 +60,9 @@ export class AdService {
     return this.http.get<Ad[]>(`${this.apiUrl}/search`, { headers, params });
   }
 
-  getAdById(id: number) {
-    const ad = this.mockAds.find((ad) => ad.id === id);
-    return of(ad || null); // używamy of() żeby zasymulować Observable
+  getAdById(id: number): Observable<Ad> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<Ad>(`${this.apiUrl}/${id}`, { headers });
   }
 
   addAd(ad: Ad): Observable<Ad> {

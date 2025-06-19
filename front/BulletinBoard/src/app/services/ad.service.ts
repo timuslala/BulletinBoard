@@ -11,34 +11,9 @@ export class AdService {
 
   http = inject(HttpClient);
 
-  private mockAds: Ad[] = [
-    {
-      id: 1,
-      title: 'Sprzedam rower',
-      description: 'Prawie nowy rower miejski.',
-      tags: ['sport', 'rower'],
-      showEmail: true,
-      showPhone: false,
-      imageUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Left_side_of_Flying_Pigeon.jpg/1280px-Left_side_of_Flying_Pigeon.jpg',
-      status: AdStatus.PUBLISHED,
-    },
-    {
-      id: 2,
-      title: 'Oddam książki',
-      description: 'Dużo książek do oddania za darmo.',
-      tags: ['książki', 'darmowe'],
-      showEmail: false,
-      showPhone: true,
-      imageUrl:
-        'https://ecsmedia.pl/cdn-cgi/image/format=webp,/c/pakiet-wiedzmin-tom-1-8-b-iext139878790.jpg',
-      status: AdStatus.PUBLISHED,
-    },
-  ];
-
   private getAuthHeaders() {
     const token = this.tokenService.getToken();
-    console.log(`Token ${token || "BRAK TOKENA"}`);
+    console.log(`Token ${token || 'BRAK TOKENA'}`);
     return {
       Authorization: `Bearer ${token || ''}`,
     };
@@ -47,15 +22,6 @@ export class AdService {
   getAllAds(): Observable<Ad[]> {
     const headers = this.getAuthHeaders();
     const params = new HttpParams().set('query', '').set('tag', '');
-
-    // const test = this.http.get<Ad[]>(`${this.apiUrl}/my`, {
-    //   headers,
-    //   params,
-    // });
-    // test.subscribe((data) => {
-    //   console.log(data);
-    //   this.mockAds = data;
-    // });
 
     return this.http.get<Ad[]>(`${this.apiUrl}/search`, { headers, params });
   }
@@ -66,22 +32,17 @@ export class AdService {
   }
 
   addAd(ad: Ad): Observable<Ad> {
-    const newAd = {
-      ...ad,
-      id: this.mockAds.length + 1,
-      status: AdStatus.PUBLISHED,
-    };
-    this.mockAds.push(newAd);
-    return of(newAd);
-  }
+    const headers = this.getAuthHeaders();
 
-  createAd(ad: Ad, photos: File[]): Observable<Ad> {
-    const formData = new FormData();
-    formData.append(
-      'ad',
-      new Blob([JSON.stringify(ad)], { type: 'application/json' })
-    );
-    photos.forEach((photo) => formData.append('photos', photo));
-    return this.http.post<Ad>(this.apiUrl, formData);
+    const payload = {
+      title: ad.title,
+      description: ad.description,
+      images: ad.imageUrl ? [ad.imageUrl] : [],
+      tagNames: ad.tags,
+      showEmail: ad.showEmail,
+      showPhone: ad.showPhone,
+    };
+
+    return this.http.post<Ad>(this.apiUrl, payload, { headers });
   }
 }

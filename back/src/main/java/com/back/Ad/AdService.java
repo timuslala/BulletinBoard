@@ -28,7 +28,8 @@ public class AdService {
         ad.setShowEmail(showEmail);
         ad.setShowPhone(showPhone);
         ad.setPreviewToken(UUID.randomUUID().toString());
-        ad.setTags(tagService.processTags(tagNames));
+        // @FIXME: java.lang.NullPointerException: Cannot invoke "java.util.List.iterator()" because "tagNames" is null
+        // ad.setTags(tagService.processTags(tagNames));
         return adRepository.save(ad).toDto();
     }
 

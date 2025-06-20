@@ -59,6 +59,7 @@ public class Ad {
     }
     public AdDto toDto() {
         AdDto dto = new AdDto();
+        dto.setId(this.id);
         dto.setTitle(this.title);
         dto.setDescription(this.description);
         dto.setImages(new ArrayList<>());

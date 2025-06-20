@@ -28,7 +28,10 @@ public class AdService {
         ad.setShowEmail(showEmail);
         ad.setShowPhone(showPhone);
         ad.setPreviewToken(UUID.randomUUID().toString());
-        // @FIXME: java.lang.NullPointerException: Cannot invoke "java.util.List.iterator()" because "tagNames" is null
+        //if tagNames is null or empty, initialize with an empty list
+        if (tagNames == null || tagNames.isEmpty()) {
+            tagNames = List.of();
+        }
         ad.setTags(tagService.processTags(tagNames));
         return adRepository.save(ad).toDto();
     }
@@ -53,6 +56,10 @@ public class AdService {
         ad.setImages(images);
         ad.setShowEmail(showEmail);
         ad.setShowPhone(showPhone);
+        //if tagNames is null or empty, initialize with an empty list
+        if (tagNames == null || tagNames.isEmpty()) {
+            tagNames = List.of();
+        }
         tagService.removeTags(ad.getTags());
         ad.setTags(tagService.processTags(tagNames));
         return adRepository.save(ad).toDto();

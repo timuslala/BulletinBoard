@@ -38,7 +38,7 @@ export class AdService {
       title: ad.title,
       description: ad.description,
       images: ad.images,
-      tagNames: ad.tags,
+      tags: ad.tags,
       showEmail: ad.showEmail,
       showPhone: ad.showPhone,
     };

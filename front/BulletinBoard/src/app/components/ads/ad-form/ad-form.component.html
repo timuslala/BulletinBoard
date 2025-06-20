@@ -56,13 +56,47 @@
     </mat-chip-row>
   </mat-chip-grid>
 
-  <mat-form-field appearance="fill" class="w-full">
+  <!-- <mat-form-field appearance="fill" class="w-full">
     <mat-label>URL zdjęcia</mat-label>
     <input matInput formControlName="imageUrl" />
     <mat-error *ngIf="form.get('imageUrl')?.hasError('pattern')">
       Wprowadź poprawny URL (musi kończyć się na .jpg, .png, .webp itd.).
     </mat-error>
+  </mat-form-field> -->
+
+  <!-- Pole Nowy URL zdjęcia -->
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Dodaj URL zdjęcia</mat-label>
+    <input
+      matInput
+      formControlName="newImageUrl"
+      (keyup.enter)="addNewImage()"
+    />
+    <mat-error *ngIf="form.get('newImageUrl')?.hasError('pattern')">
+      Wprowadź poprawny URL (musi kończyć się na .jpg, .jpeg, .png, .webp,
+      .gif).
+    </mat-error>
+    <mat-error *ngIf="form.get('newImageUrl')?.hasError('maxImages')">
+      Możesz dodać maksymalnie 5 zdjęć.
+    </mat-error>
+    <mat-error *ngIf="form.get('newImageUrl')?.hasError('duplicateImage')">
+      Ten URL został już dodany.
+    </mat-error>
   </mat-form-field>
+
+  <!-- Lista zdjęć -->
+  <mat-chip-grid aria-label="Dodane zdjęcia">
+    <mat-chip-row
+      *ngFor="let imageControl of images.controls; let i = index"
+      [removable]="true"
+      (removed)="removeImage(i)"
+    >
+      {{ imageControl.value }}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip-row>
+  </mat-chip-grid>
 
   <mat-checkbox formControlName="showEmail">Pokaż email</mat-checkbox>
   <mat-checkbox formControlName="showPhone">Pokaż telefon</mat-checkbox>

@@ -37,7 +37,7 @@ export class AdService {
     const payload = {
       title: ad.title,
       description: ad.description,
-      images: ad.imageUrl ? [ad.imageUrl] : [],
+      images: ad.images,
       tagNames: ad.tags,
       showEmail: ad.showEmail,
       showPhone: ad.showPhone,

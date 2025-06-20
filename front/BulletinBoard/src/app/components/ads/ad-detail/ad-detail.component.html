@@ -1,9 +1,9 @@
 <ng-container *ngIf="ad">
   <div class="ad-container">
     <img
-      *ngIf="ad.imageUrl"
+      *ngIf="ad.images"
       class="ad-image"
-      [src]="ad.imageUrl"
+      [src]="ad.images[0]"
       alt="Zdjęcie ogłoszenia"
       (click)="onImageClick()"
     />

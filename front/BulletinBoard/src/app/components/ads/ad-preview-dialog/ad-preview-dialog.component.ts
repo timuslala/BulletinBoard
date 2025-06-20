@@ -21,7 +21,7 @@ export class AdPreviewDialogComponent {
       title: data.title || 'Brak tytułu',
       description: data.description || 'Brak opisu',
       tags: data.tags || [],
-      imageUrl: data.imageUrl || '',
+      images: data.images || [],
       showEmail: data.showEmail || false,
       showPhone: data.showPhone || false,
       status: AdStatus.DRAFT,

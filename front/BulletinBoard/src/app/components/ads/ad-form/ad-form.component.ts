@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -51,7 +53,8 @@ export class AdFormComponent {
       description: ['', [Validators.required, Validators.minLength(10)]],
       tags: [[], [Validators.required, Validators.minLength(1)]],
       newTag: [''],
-      imageUrl: [
+      images: this.fb.array([]), // <-- FormArray
+      newImageUrl: [
         '',
         [Validators.pattern(/^https?:\/\/.+\.(jpg|jpeg|png|gif|webp)$/i)],
       ],
@@ -86,11 +89,46 @@ export class AdFormComponent {
     this.form.patchValue({ tags });
   }
 
+  get images(): FormArray {
+    return this.form.get('images') as FormArray;
+  }
+
+  addNewImage() {
+    const newImageUrl = this.form.value.newImageUrl.trim();
+    if (!newImageUrl || !this.form.get('newImageUrl')?.valid) {
+      return;
+    }
+
+    if (this.images.length >= 5) {
+      this.form.get('newImageUrl')?.setErrors({ maxImages: true });
+      return;
+    }
+
+    const isDuplicate = this.images.controls.some(
+      (ctrl) => ctrl.value === newImageUrl
+    );
+    if (isDuplicate) {
+      this.form.get('newImageUrl')?.setErrors({ duplicateImage: true });
+      return;
+    }
+
+    this.images.push(
+      new FormControl(newImageUrl, [
+        Validators.pattern(/^https?:\/\/.+\.(jpg|jpeg|png|gif|webp)$/i),
+      ])
+    );
+    this.form.patchValue({ newImageUrl: '' });
+  }
+
+  removeImage(index: number) {
+    this.images.removeAt(index);
+  }
+
   openPreview() {
     this.dialog.open(AdPreviewDialogComponent, {
       data: this.form.value,
       width: '900px',
-      maxWidth: '900px'
+      maxWidth: '900px',
     });
   }
 }

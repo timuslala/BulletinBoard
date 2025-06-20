@@ -1,5 +1,5 @@
 <mat-card class="clickable-card" [routerLink]="'/ads/' + ad.id">
-  <img *ngIf="ad.imageUrl" mat-card-image [src]="ad.imageUrl" alt="Ogłoszenie" />
+  <img *ngIf="ad.images" mat-card-image [src]="ad.images[0]" alt="Ogłoszenie" />
   <mat-card-header>
     <mat-card-title>{{ ad.title }}</mat-card-title>
   </mat-card-header>

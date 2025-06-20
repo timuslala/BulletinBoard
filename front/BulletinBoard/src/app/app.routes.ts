@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -33,6 +34,7 @@ export const routes: Routes = [
       import('./pages/ads/ad-form-page/ad-form-page.component').then(
         (m) => m.AdFormPageComponent
       ),
+    canActivate: [authGuard],
   },
   {
     path: 'ads/:id',
@@ -47,6 +49,7 @@ export const routes: Routes = [
       import('./pages/messages/inbox-page/inbox-page.component').then(
         (m) => m.InboxPageComponent
       ),
+    canActivate: [authGuard],
   },
   {
     path: 'inbox/conversation/:id',
@@ -54,5 +57,6 @@ export const routes: Routes = [
       import(
         './pages/messages/messages-conversation/messages-conversation.component'
       ).then((m) => m.MessagesConversationPageComponent),
+    canActivate: [authGuard],
   },
 ];

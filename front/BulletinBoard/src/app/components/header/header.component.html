@@ -1,10 +1,27 @@
 <header>
   <nav>
-    <span routerLink="/" class="logo">{{ title() }}</span>
+    <span routerLink="/" class="logo">{{ title }}</span>
+
     <ul class="nav-links">
       <li><a routerLink="/ads" routerLinkActive="active">Ogłoszenia</a></li>
-      <li><a routerLink="/inbox" routerLinkActive="active">Skrzynka</a></li>
+
+      <ng-container *ngIf="isLoggedIn(); else loggedOutLinks">
+        <li><a routerLink="/inbox" routerLinkActive="active">Skrzynka</a></li>
+      </ng-container>
+
+      <ng-template #loggedOutLinks>
+        <li><a routerLink="/register" routerLinkActive="active">Zarejestruj</a></li>
+        <li><a routerLink="/login" routerLinkActive="active">Zaloguj</a></li>
+      </ng-template>
     </ul>
-    <button routerLink="/ads/new" class="btn-add-ad">Dodaj ogłoszenie</button>
+
+    <ng-container *ngIf="isLoggedIn(); else loggedOutButtons">
+      <button routerLink="/ads/new" class="btn-add-ad">Dodaj ogłoszenie</button>
+      <button class="btn-logout" (click)="logout()">Wyloguj</button>
+    </ng-container>
+
+    <ng-template #loggedOutButtons>
+      <!-- brak przycisków dodatkowych dla niezalogowanych -->
+    </ng-template>
   </nav>
 </header>

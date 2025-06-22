@@ -12,37 +12,96 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.extension.ExtendWith;
+import com.back.ad.AdDto;
 
-@SpringBootTest
+
 @ExtendWith(MockitoExtension.class)
 public class AdServiceTest {
 
-    @Autowired
-    private AdService adService;
-
-    @MockitoBean
+    @Mock
     private AdRepository adRepository;
 
-    @MockitoBean
+    @Mock
     private TagService tagService;
+
+    @InjectMocks
+    private AdService adService;
 
     @Test
     public void createAd_throwsException_whenMoreThan10Images() {
-        // given
         User seller = new User();
         List<String> images = new ArrayList<>();
         List<String> tagNames = new ArrayList<>();
-
-        // when & then
+        for (int i = 0; i < 11; i++) {
+            images.add("image" + i + ".jpg");
+        }
         assertThrows(IllegalArgumentException.class, () -> {
             adService.createAd(seller, "title", "desc", images, tagNames, true, true);
         });
     }
+
+    @Test
+    public void getAdById_returnsDto_whenFound() {
+        Ad ad = mock(Ad.class);
+        AdDto dto = new AdDto();
+        when(adRepository.findById(1L)).thenReturn(java.util.Optional.of(ad));
+        when(ad.toDto()).thenReturn(dto);
+
+        AdDto result = adService.getAdById(1L);
+
+        assertSame(dto, result);
+    }
+
+    @Test
+    public void getAdById_throwsException_whenNotFound() {
+        when(adRepository.findById(1L)).thenReturn(java.util.Optional.empty());
+        assertThrows(IllegalArgumentException.class, () -> adService.getAdById(1L));
+    }
+
+    @Test
+    public void updateAd_updatesFields_andReturnsDto() {
+        User seller = new User();
+        seller.setId(1L);
+        Ad ad = mock(Ad.class);
+        AdDto dto = new AdDto();
+        List<String> images = List.of("img1");
+        List<String> tagNames = List.of("tag1");
+        when(ad.getSeller()).thenReturn(seller);
+        when(adRepository.findById(1L)).thenReturn(java.util.Optional.of(ad));
+        when(tagService.processTags(tagNames)).thenReturn(List.of());
+        when(adRepository.save(any(Ad.class))).thenReturn(ad);
+        when(ad.toDto()).thenReturn(dto);
+
+        AdDto result = adService.updateAd(1L, seller, "t", "d", images, tagNames, true, true);
+
+        assertSame(dto, result);
+        verify(tagService).removeTags(any());
+        verify(tagService).processTags(tagNames);
+    }
+
+    @Test
+    public void deleteAd_deletesAd_whenAuthorized() {
+        User seller = new User();
+        seller.setId(1L);
+        Ad ad = new Ad();
+        ad.setSeller(seller);
+        when(adRepository.findById(1L)).thenReturn(java.util.Optional.of(ad));
+
+        adService.deleteAd(1L, seller);
+
+        verify(tagService).removeTags(any());
+        verify(adRepository).delete(ad);
+    }
+
 
     @Test
     public void updateAd_throwsException_whenAdNotFound() {

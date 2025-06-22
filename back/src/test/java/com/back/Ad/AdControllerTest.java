@@ -185,4 +185,3 @@ public class AdControllerTest {
 				.andExpect(jsonPath("$[0].title").value("My Ad"));
 	}
 }
-// This code is a test class for the AdController in a Spring Boot application.

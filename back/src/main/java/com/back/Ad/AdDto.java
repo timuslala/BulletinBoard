@@ -9,6 +9,8 @@ public class AdDto {
     private Long id;
     private String title;
     private String description;
+    private String status;
+    private Long sellerId;
     private List<String> images;
     private List<String> tags;
     private boolean showEmail;

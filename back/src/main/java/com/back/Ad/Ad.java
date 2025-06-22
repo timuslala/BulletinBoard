@@ -63,9 +63,11 @@ public class Ad {
         dto.setTitle(this.title);
         dto.setDescription(this.description);
         dto.setImages(new ArrayList<>());
+        dto.setSellerId(this.seller.getId());
         for (String image : this.images) {
             dto.getImages().add(image);
         }
+        dto.setStatus(this.status.name());
         dto.setTags(new ArrayList<>());
         for (Tag tag : this.tags) {
             dto.getTags().add(tag.getName());

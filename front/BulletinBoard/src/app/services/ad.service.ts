@@ -18,6 +18,12 @@ export class AdService {
     return this.http.get<Ad[]>(`${this.apiUrl}/search`, { headers, params });
   }
 
+  getMyAds(): Observable<Ad[]> {
+    const headers = this.tokenService.getAuthHeaders();
+
+    return this.http.get<Ad[]>(`${this.apiUrl}/my`, { headers });
+  }
+
   getAdById(id: number): Observable<Ad> {
     const headers = this.tokenService.getAuthHeaders();
     return this.http.get<Ad>(`${this.apiUrl}/${id}`, { headers });

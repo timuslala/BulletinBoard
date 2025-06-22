@@ -29,6 +29,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'ads/my',
+    loadComponent: () =>
+      import('./pages/ads/my-ads-page/my-ads-page.component').then(
+        (m) => m.MyAdsPageComponent
+      ),
+    canActivate: [authGuard],
+  },
+  {
     path: 'ads/new',
     loadComponent: () =>
       import('./pages/ads/ad-form-page/ad-form-page.component').then(

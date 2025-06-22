@@ -6,6 +6,7 @@
       <li><a routerLink="/ads" routerLinkActive="active">Ogłoszenia</a></li>
 
       <ng-container *ngIf="isLoggedIn(); else loggedOutLinks">
+        <li><a routerLink="/ads/my" routerLinkActive="active">Moje ogłoszenia</a></li>
         <li><a routerLink="/inbox" routerLinkActive="active">Skrzynka</a></li>
       </ng-container>
 

@@ -52,7 +52,7 @@ export class AdDetailComponent implements OnInit {
       this.ad &&
         this.adService.deleteAd(this.ad.id).subscribe(() => {
           alert('Ogłoszenie zostało usunięte.');
-          this.router.navigate(['/ads']);
+          this.router.navigate(['/ads/my']);
         });
     }
   }

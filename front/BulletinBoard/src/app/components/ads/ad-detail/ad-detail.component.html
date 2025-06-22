@@ -21,5 +21,34 @@
       <!-- @TODO: Change to user.phone -->
       <strong>Telefon kontaktowy:</strong> 123-456-789
     </p>
+    <div class="button-group">
+      <button
+        *ngIf="isMyAd(); else notMine"
+        class="btn"
+        [disabled]="!isPublished()"
+        (click)="onEditAd()"
+      >
+        Edytuj ogłoszenie
+      </button>
+
+      <button
+        *ngIf="isMyAd()"
+        class="btn btn-danger"
+        [disabled]="!isPublished()"
+        (click)="onDeleteAd()"
+      >
+        Usuń ogłoszenie
+      </button>
+
+      <ng-template #notMine>
+        <button
+          class="btn btn-primary"
+          [disabled]="!isPublished()"
+          (click)="onSendMessage()"
+        >
+          Wyślij wiadomość
+        </button>
+      </ng-template>
+    </div>
   </div>
 </ng-container>

@@ -13,4 +13,5 @@ export interface Ad {
   showPhone: boolean;
   images?: string[];
   status: AdStatus;
+  sellerId?: number;
 }

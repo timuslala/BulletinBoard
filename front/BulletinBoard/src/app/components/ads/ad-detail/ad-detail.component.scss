@@ -29,3 +29,46 @@
     margin-left: 8px;
   }
 }
+
+.button-group {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  color: white;
+  background-color: #666;
+}
+
+.btn:hover {
+  background-color: #444;
+}
+
+.btn-danger {
+  background-color: #d9534f;
+}
+
+.btn-danger:hover {
+  background-color: #c9302c;
+}
+
+.btn-primary {
+  background-color: #0275d8;
+}
+
+.btn-primary:hover {
+  background-color: #025aa5;
+}
+
+.btn:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}

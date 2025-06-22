@@ -1,9 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Conversation, Message } from '../models/message.model';
+import { TokenService } from './token.service';
 
 @Injectable({ providedIn: 'root' })
 export class MessageService {
+  private tokenService = inject(TokenService);
+
   private mockConversations: Conversation[] = [
     {
       id: 1,
@@ -49,5 +52,11 @@ export class MessageService {
   getConversationById(id: number): Observable<Conversation | null> {
     const conversation = this.mockConversations.find((c) => c.id === id);
     return of(conversation || null);
+  }
+
+  sendMessageToSeller(adId: number): Observable<any> {
+    const headers = this.tokenService.getAuthHeaders();
+    console.log(`MOCK sendMessageToSeller: ogłoszenie o ID ${adId}`);
+    return of({ status: 'message_sent', adId });
   }
 }

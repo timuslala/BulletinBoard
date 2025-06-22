@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { Ad, AdStatus } from '../models/ad.model';
+import { Ad } from '../models/ad.model';
 import { TokenService } from './token.service';
 
 @Injectable({ providedIn: 'root' })
@@ -11,28 +11,20 @@ export class AdService {
 
   http = inject(HttpClient);
 
-  private getAuthHeaders() {
-    const token = this.tokenService.getToken();
-    console.log(`Token ${token || 'BRAK TOKENA'}`);
-    return {
-      Authorization: `Bearer ${token || ''}`,
-    };
-  }
-
   getAllAds(): Observable<Ad[]> {
-    const headers = this.getAuthHeaders();
+    const headers = this.tokenService.getAuthHeaders();
     const params = new HttpParams().set('query', '').set('tag', '');
 
     return this.http.get<Ad[]>(`${this.apiUrl}/search`, { headers, params });
   }
 
   getAdById(id: number): Observable<Ad> {
-    const headers = this.getAuthHeaders();
+    const headers = this.tokenService.getAuthHeaders();
     return this.http.get<Ad>(`${this.apiUrl}/${id}`, { headers });
   }
 
   addAd(ad: Ad): Observable<Ad> {
-    const headers = this.getAuthHeaders();
+    const headers = this.tokenService.getAuthHeaders();
 
     const payload = {
       title: ad.title,
@@ -44,5 +36,16 @@ export class AdService {
     };
 
     return this.http.post<Ad>(this.apiUrl, payload, { headers });
+  }
+
+  editAd(id: number): Observable<any> {
+    const headers = this.tokenService.getAuthHeaders();
+    console.log(`MOCK editAd: ogłoszenie o ID ${id}`);
+    return of({ status: 'edited', id });
+  }
+
+  deleteAd(id: number): Observable<any> {
+    const headers = this.tokenService.getAuthHeaders();
+    return this.http.delete<Ad>(`${this.apiUrl}/${id}`, { headers });
   }
 }

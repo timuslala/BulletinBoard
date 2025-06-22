@@ -40,7 +40,7 @@ public class UserController {
         } catch (AuthenticationException e) {
             return ResponseEntity.status(401).body("Invalid credentials");
         }
-        String token = jwtUtil.generateToken(request.getUsername());
+        String token = jwtUtil.generateToken(userService.findByUsername(request.getUsername()));
         return ResponseEntity.ok(new JwtResponse(token));
     }
 }

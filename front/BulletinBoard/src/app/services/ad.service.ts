@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { Ad } from '../models/ad.model';
+import { Ad, AdStatus } from '../models/ad.model';
 import { TokenService } from './token.service';
 
 @Injectable({ providedIn: 'root' })
@@ -53,5 +53,14 @@ export class AdService {
   deleteAd(id: number): Observable<any> {
     const headers = this.tokenService.getAuthHeaders();
     return this.http.delete<Ad>(`${this.apiUrl}/${id}`, { headers });
+  }
+
+  updateAdStatus(id: number, status: AdStatus): Observable<Ad> {
+    const headers = this.tokenService.getAuthHeaders();
+    return this.http.put<Ad>(
+      `${this.apiUrl}/${id}/status`,
+      { status },
+      { headers }
+    );
   }
 }

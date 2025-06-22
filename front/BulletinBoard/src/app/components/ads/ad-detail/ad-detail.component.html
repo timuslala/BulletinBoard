@@ -25,7 +25,7 @@
       <button
         *ngIf="isMyAd(); else notMine"
         class="btn"
-        [disabled]="!isPublished()"
+        [disabled]="!isMyAd()"
         (click)="onEditAd()"
       >
         Edytuj ogłoszenie
@@ -33,8 +33,17 @@
 
       <button
         *ngIf="isMyAd()"
+        class="btn btn-secondary"
+        [disabled]="!isMyAd()"
+        (click)="onToggleAdStatus()"
+      >
+        {{ isPublished() ? "Dodaj do wersji roboczych" : "Opublikuj" }}
+      </button>
+
+      <button
+        *ngIf="isMyAd()"
         class="btn btn-danger"
-        [disabled]="!isPublished()"
+        [disabled]="!isMyAd()"
         (click)="onDeleteAd()"
       >
         Usuń ogłoszenie

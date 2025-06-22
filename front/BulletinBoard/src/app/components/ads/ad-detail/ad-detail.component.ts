@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Ad } from '../../../models/ad.model';
+import { Ad, AdStatus } from '../../../models/ad.model';
 import { TokenService } from '../../../services/token.service';
 import { AdService } from '../../../services/ad.service';
 import { MessageService } from '../../../services/messages.service';
@@ -60,5 +60,19 @@ export class AdDetailComponent implements OnInit {
   onSendMessage() {
     console.log('Wysyłanie wiadomości do właściciela ogłoszenia:', this.ad);
     this.ad && this.messageService.sendMessageToSeller(this.ad.id).subscribe();
+  }
+
+  onToggleAdStatus() {
+    if (!this.ad) return;
+
+    const newStatus: AdStatus = this.isPublished()
+      ? AdStatus.DRAFT
+      : AdStatus.PUBLISHED;
+
+    this.adService
+      .updateAdStatus(this.ad.id, newStatus)
+      .subscribe((updatedAd) => {
+        this.ad!.status = updatedAd.status;
+      });
   }
 }

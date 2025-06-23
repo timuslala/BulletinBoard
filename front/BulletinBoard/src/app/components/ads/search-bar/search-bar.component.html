@@ -1,0 +1,35 @@
+<form [formGroup]="form" (ngSubmit)="submitSearch()" class="search-bar">
+  <mat-form-field class="w-full">
+    <mat-label>Wyszukaj</mat-label>
+    <input matInput formControlName="query" placeholder="Po tytule i opisie" />
+  </mat-form-field>
+
+  <mat-form-field class="w-full">
+    <mat-label>Dodaj tag</mat-label>
+    <input matInput formControlName="tagSearch" [matAutocomplete]="auto" />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let tag of tagSuggestions"
+        [value]="tag.name"
+        (onSelectionChange)="addTag(tag.name)"
+      >
+        {{ tag.name }} ({{ tag.usageCount }})
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-chip-grid>
+    <mat-chip-row
+      *ngFor="let tag of form.value.tags"
+      [removable]="true"
+      (removed)="removeTag(tag)"
+    >
+      {{ tag }}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip-row>
+  </mat-chip-grid>
+
+  <div class="actions mt-2">
+    <button mat-raised-button color="primary" type="submit">Szukaj</button>
+  </div>
+</form>

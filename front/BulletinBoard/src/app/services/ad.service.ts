@@ -63,4 +63,13 @@ export class AdService {
       { headers }
     );
   }
+
+  searchAds(query: string, tags: string[]): Observable<Ad[]> {
+    const headers = this.tokenService.getAuthHeaders();
+    let params = new HttpParams().set('query', query || '');
+    tags.forEach((tag) => {
+      params = params.append('tag', tag);
+    });
+    return this.http.get<Ad[]>(`${this.apiUrl}/search`, { headers, params });
+  }
 }

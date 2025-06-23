@@ -1,4 +1,9 @@
 <h2>Ogłoszenia</h2>
+
+<app-search-bar
+  (search)="searchAds($event.query, $event.tags)"
+></app-search-bar>
+
 <div class="ads-container">
   <app-ad-card *ngFor="let ad of ads()" [ad]="ad" />
 </div>

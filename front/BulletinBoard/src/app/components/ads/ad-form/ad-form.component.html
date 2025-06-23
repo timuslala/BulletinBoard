@@ -2,69 +2,65 @@
   <mat-form-field appearance="fill" class="w-full">
     <mat-label>Tytuł</mat-label>
     <input matInput formControlName="title" required />
-    <mat-error *ngIf="form.get('title')?.hasError('required')">
-      Tytuł jest wymagany.
-    </mat-error>
-    <mat-error *ngIf="form.get('title')?.hasError('minlength')">
-      Tytuł musi mieć co najmniej 5 znaków.
-    </mat-error>
+    <mat-error *ngIf="form.get('title')?.hasError('required')"
+      >Tytuł jest wymagany</mat-error
+    >
+    <mat-error *ngIf="form.get('title')?.hasError('minlength')"
+      >Tytuł musi mieć co najmniej 5 znaków</mat-error
+    >
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="w-full">
     <mat-label>Opis</mat-label>
     <textarea matInput rows="4" formControlName="description"></textarea>
-    <mat-error *ngIf="form.get('description')?.hasError('required')">
-      Opis jest wymagany.
-    </mat-error>
-    <mat-error *ngIf="form.get('description')?.hasError('minlength')">
-      Opis musi mieć co najmniej 10 znaków.
-    </mat-error>
+    <mat-error *ngIf="form.get('description')?.hasError('required')"
+      >Opis jest wymagany</mat-error
+    >
+    <mat-error *ngIf="form.get('description')?.hasError('minlength')"
+      >Opis musi mieć co najmniej 10 znaków</mat-error
+    >
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="w-full">
-    <mat-label>Dodaj tag</mat-label>
+    <mat-label>Dodaj własny tag</mat-label>
     <input matInput formControlName="newTag" (keyup.enter)="addNewTag()" />
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="w-full">
-    <mat-label>Tagi</mat-label>
-    <mat-select formControlName="tags" multiple>
-      <mat-option *ngFor="let tag of availableTags" [value]="tag">
-        {{ tag }}
+    <mat-label>Wyszukaj tag</mat-label>
+    <input matInput formControlName="tagSearch" [matAutocomplete]="auto" />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let tag of tagSuggestions"
+        [value]="tag.name"
+        (onSelectionChange)="selectSuggestedTag(tag.name)"
+      >
+        {{ tag.name }} ({{ tag.usageCount }})
       </mat-option>
-    </mat-select>
-    <mat-error
-      *ngIf="
-        form.get('tags')?.hasError('required') ||
-        form.get('tags')?.hasError('minlength')
-      "
-    >
-      Wybierz co najmniej jeden tag.
-    </mat-error>
+    </mat-autocomplete>
   </mat-form-field>
 
-  <mat-chip-grid aria-label="Wybrane tagi">
-    <mat-chip-row
-      *ngFor="let tag of form.value.tags"
-      [removable]="true"
-      (removed)="removeTag(tag)"
-    >
-      {{ tag }}
-      <button matChipRemove>
-        <mat-icon>cancel</mat-icon>
-      </button>
-    </mat-chip-row>
-  </mat-chip-grid>
+<mat-chip-grid aria-label="Wybrane tagi">
+  <mat-chip-row
+    *ngFor="let tag of form.value.tags"
+    [removable]="true"
+    (removed)="removeTag(tag)"
+  >
+    {{ tag }}
+    <button matChipRemove>
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </mat-chip-row>
+</mat-chip-grid>
+<mat-error
+  *ngIf="
+    (form.get('tags')?.touched || form.get('tags')?.dirty) &&
+    (form.get('tags')?.hasError('required') || form.get('tags')?.hasError('minlength'))
+  "
+>
+  Wybierz co najmniej jeden tag.
+</mat-error>
 
-  <!-- <mat-form-field appearance="fill" class="w-full">
-    <mat-label>URL zdjęcia</mat-label>
-    <input matInput formControlName="imageUrl" />
-    <mat-error *ngIf="form.get('imageUrl')?.hasError('pattern')">
-      Wprowadź poprawny URL (musi kończyć się na .jpg, .png, .webp itd.).
-    </mat-error>
-  </mat-form-field> -->
-
-  <!-- Pole Nowy URL zdjęcia -->
   <mat-form-field appearance="fill" class="w-full">
     <mat-label>Dodaj URL zdjęcia</mat-label>
     <input
@@ -84,7 +80,6 @@
     </mat-error>
   </mat-form-field>
 
-  <!-- Lista zdjęć -->
   <mat-chip-grid aria-label="Dodane zdjęcia">
     <mat-chip-row
       *ngFor="let imageControl of images.controls; let i = index"
@@ -92,9 +87,7 @@
       (removed)="removeImage(i)"
     >
       {{ imageControl.value }}
-      <button matChipRemove>
-        <mat-icon>cancel</mat-icon>
-      </button>
+      <button matChipRemove><mat-icon>cancel</mat-icon></button>
     </mat-chip-row>
   </mat-chip-grid>
 

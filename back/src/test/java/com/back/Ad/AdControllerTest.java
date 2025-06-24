@@ -25,6 +25,7 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -53,7 +54,8 @@ public class AdControllerTest {
 		adDto.setDescription("Test Description");
 		adDto.setShowEmail(true);
 		adDto.setShowPhone(false);
-
+		adDto.setImages(List.of("img1.jpg"));
+		adDto.setTags(List.of("tag1"));
 
 		org.mockito.Mockito.when(adService.createAd(any(User.class), anyString(), anyString(), anyList(), anyList(), anyBoolean(), anyBoolean()))
 				.thenReturn(adDto);
@@ -78,6 +80,8 @@ public class AdControllerTest {
 		adDto.setDescription("Updated Description");
 		adDto.setShowEmail(false);
 		adDto.setShowPhone(true);
+		adDto.setImages(List.of("img2.jpg"));
+		adDto.setTags(List.of("tag2"));
 
 		when(adService.updateAd(eq(2L), any(User.class), anyString(), anyString(), anyList(), anyList(), anyBoolean(), anyBoolean()))
 				.thenReturn(adDto);
@@ -110,7 +114,9 @@ public class AdControllerTest {
 		Ad ad = new Ad();
 		ad.setId(4L);
 		ad.setStatus(AdStatus.PUBLISHED);
-
+		User seller = new User();
+		seller.setId(1L);
+		ad.setSeller(seller);
 		when(adService.updateStatus(eq(4L), any(User.class), eq(AdStatus.PUBLISHED))).thenReturn(ad);
 
 		mockMvc.perform(put("/api/ads/4/status")
@@ -142,10 +148,13 @@ public class AdControllerTest {
 		Ad ad = new Ad();
 		ad.setId(6L);
 		ad.setTitle("Preview Ad");
-
+		User seller = new User();
+		seller.setId(1L);
+		ad.setSeller(seller);
 		when(adService.getAdByPreviewToken("token123")).thenReturn(ad);
-
-		mockMvc.perform(get("/api/ads/preview/token123"))
+		mockMvc.perform(get("/api/ads/preview/token123")
+				.with(SecurityMockMvcRequestPostProcessors.user(getMockUserDetails()))
+				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.id").value(6L))
 				.andExpect(jsonPath("$.title").value("Preview Ad"));
@@ -159,7 +168,10 @@ public class AdControllerTest {
 		Ad ad2 = new Ad();
 		ad2.setId(8L);
 		ad2.setTitle("Ad2");
-
+		User seller = new User();
+		seller.setId(1L);
+		ad1.setSeller(seller);
+		ad2.setSeller(seller);
 		when(adService.searchAds("query", "tag")).thenReturn(Arrays.asList(ad1, ad2));
 
 		mockMvc.perform(get("/api/ads/search")
@@ -175,7 +187,9 @@ public class AdControllerTest {
 		Ad ad = new Ad();
 		ad.setId(9L);
 		ad.setTitle("My Ad");
-
+		User seller = new User();
+		seller.setId(1L);
+		ad.setSeller(seller);
 		when(adService.getAdsBySeller(1L)).thenReturn(Collections.singletonList(ad));
 
 		mockMvc.perform(get("/api/ads/my")

@@ -72,6 +72,8 @@ public class Ad {
         for (Tag tag : this.tags) {
             dto.getTags().add(tag.getName());
         }
+        dto.setEmail(this.showEmail ? this.seller.getEmail() : null);
+        dto.setPhone(this.showPhone ? this.seller.getPhone() : null);
         dto.setShowEmail(this.showEmail);
         dto.setShowPhone(this.showPhone);
         return dto;

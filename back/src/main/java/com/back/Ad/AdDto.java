@@ -13,6 +13,8 @@ public class AdDto {
     private Long sellerId;
     private List<String> images;
     private List<String> tags;
+    private String email;
+    private String phone;
     private boolean showEmail;
     private boolean showPhone;
 }

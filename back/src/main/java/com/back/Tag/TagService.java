@@ -24,10 +24,12 @@ public class TagService {
                 tag = new Tag();
                 tag.setName(name);
                 tag.setUsageCount(1);
+                tag = tagRepository.save(tag);
             } else {
                 tag.setUsageCount(tag.getUsageCount() + 1);
+                tag = tagRepository.save(tag);
             }
-            tags.add(tagRepository.save(tag));
+            tags.add(tag);
         }
         return tags;
     }

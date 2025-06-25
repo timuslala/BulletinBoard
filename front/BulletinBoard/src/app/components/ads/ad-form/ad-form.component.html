@@ -1,4 +1,8 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
+<form
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+  (keydown.enter)="$event.preventDefault()"
+>
   <mat-form-field appearance="fill" class="w-full">
     <mat-label>Tytuł</mat-label>
     <input matInput formControlName="title" required />
@@ -40,26 +44,27 @@
     </mat-autocomplete>
   </mat-form-field>
 
-<mat-chip-grid aria-label="Wybrane tagi">
-  <mat-chip-row
-    *ngFor="let tag of form.value.tags"
-    [removable]="true"
-    (removed)="removeTag(tag)"
+  <mat-chip-grid aria-label="Wybrane tagi">
+    <mat-chip-row
+      *ngFor="let tag of form.value.tags"
+      [removable]="true"
+      (removed)="removeTag(tag)"
+    >
+      {{ tag }}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip-row>
+  </mat-chip-grid>
+  <mat-error
+    *ngIf="
+      (form.get('tags')?.touched || form.get('tags')?.dirty) &&
+      (form.get('tags')?.hasError('required') ||
+        form.get('tags')?.hasError('minlength'))
+    "
   >
-    {{ tag }}
-    <button matChipRemove>
-      <mat-icon>cancel</mat-icon>
-    </button>
-  </mat-chip-row>
-</mat-chip-grid>
-<mat-error
-  *ngIf="
-    (form.get('tags')?.touched || form.get('tags')?.dirty) &&
-    (form.get('tags')?.hasError('required') || form.get('tags')?.hasError('minlength'))
-  "
->
-  Wybierz co najmniej jeden tag.
-</mat-error>
+    Wybierz co najmniej jeden tag.
+  </mat-error>
 
   <mat-form-field appearance="fill" class="w-full">
     <mat-label>Dodaj URL zdjęcia</mat-label>

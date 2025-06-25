@@ -1,12 +1,23 @@
 <ng-container *ngIf="ad">
   <div class="ad-container">
-    <img
-      *ngIf="ad.images"
-      class="ad-image"
-      [src]="ad.images[0]"
-      alt="Zdjęcie ogłoszenia"
-      (click)="onImageClick()"
-    />
+    <!-- Main Image -->
+    <div class="main-image" *ngIf="hasImages">
+      <img [src]="selectedImage" alt="Główne zdjęcie ogłoszenia" />
+    </div>
+    <div class="no-image" *ngIf="!hasImages">Brak zdjęć do wyświetlenia.</div>
+
+    <!-- Thumbnails -->
+    <div class="thumbnails" *ngIf="images.length > 1">
+      <img
+        *ngFor="let img of images; let i = index"
+        [src]="img"
+        [class.active]="i === selectedImageIndex"
+        (click)="selectImage(i)"
+        alt="Miniatura zdjęcia ogłoszenia"
+      />
+    </div>
+
+    <!-- Details -->
     <h1 class="ad-title">{{ ad.title }}</h1>
     <p>{{ ad.description }}</p>
     <p class="tags">
@@ -14,42 +25,31 @@
       <span *ngFor="let tag of ad.tags">#{{ tag }} </span>
     </p>
     <p *ngIf="ad.showEmail">
-      <!-- @TODO: Change to user.email -->
-      <strong>Email kontaktowy:</strong> user&#64;example.com
+      <strong>Email kontaktowy:</strong> {{ ad.email }}
     </p>
     <p *ngIf="ad.showPhone">
-      <!-- @TODO: Change to user.phone -->
-      <strong>Telefon kontaktowy:</strong> 123-456-789
+      <strong>Telefon kontaktowy:</strong> {{ ad.phone }}
     </p>
+
+    <!-- Buttons -->
     <div class="button-group">
-      <button
-        *ngIf="isMyAd(); else notMine"
-        class="btn"
-        [disabled]="!isMyAd()"
-        (click)="onEditAd()"
-      >
+      <button *ngIf="isMyAd()" class="btn" (click)="onEditAd()">
         Edytuj ogłoszenie
       </button>
 
       <button
         *ngIf="isMyAd()"
         class="btn btn-secondary"
-        [disabled]="!isMyAd()"
         (click)="onToggleAdStatus()"
       >
         {{ isPublished() ? "Dodaj do wersji roboczych" : "Opublikuj" }}
       </button>
 
-      <button
-        *ngIf="isMyAd()"
-        class="btn btn-danger"
-        [disabled]="!isMyAd()"
-        (click)="onDeleteAd()"
-      >
+      <button *ngIf="isMyAd()" class="btn btn-danger" (click)="onDeleteAd()">
         Usuń ogłoszenie
       </button>
 
-      <ng-template #notMine>
+      <ng-container *ngIf="!isMyAd()">
         <button
           class="btn btn-primary"
           [disabled]="!isPublished()"
@@ -57,7 +57,7 @@
         >
           Wyślij wiadomość
         </button>
-      </ng-template>
+      </ng-container>
     </div>
   </div>
 </ng-container>

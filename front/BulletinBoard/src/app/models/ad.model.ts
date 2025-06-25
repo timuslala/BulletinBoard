@@ -11,6 +11,8 @@ export interface Ad {
   tags: string[];
   showEmail: boolean;
   showPhone: boolean;
+  email?: string;
+  phone?: number;
   images?: string[];
   status: AdStatus;
   sellerId?: number;

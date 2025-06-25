@@ -7,12 +7,50 @@
   gap: 16px;
 }
 
-.ad-image {
-  max-height: 400px;
-  object-fit: cover;
-  width: 100%;
-  cursor: pointer;
-  border-radius: 8px;
+.main-image {
+  text-align: center;
+
+  img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+}
+
+/* Sekcja bez zdjęć */
+.no-image {
+  text-align: center;
+  font-style: italic;
+  padding: 1rem;
+  color: #777;
+}
+
+/* Miniaturki */
+.thumbnails {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px 0;
+
+  img {
+    width: 60px !important; 
+    height: 60px !important;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+
+    &.active {
+      border-color: #007bff;
+    }
+
+    &:hover {
+      border-color: #0056b3;
+    }
+  }
 }
 
 .ad-title {

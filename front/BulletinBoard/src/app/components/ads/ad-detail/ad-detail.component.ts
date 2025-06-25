@@ -15,7 +15,9 @@ import { Router } from '@angular/router';
 })
 export class AdDetailComponent implements OnInit {
   @Input() ad: Ad | null = null;
+
   userIdFromToken: number | null = null;
+  selectedImageIndex = 0;
 
   constructor(
     private tokenService: TokenService,
@@ -24,14 +26,8 @@ export class AdDetailComponent implements OnInit {
     private router: Router
   ) {}
 
-  onImageClick() {
-    console.log('Kliknięto zdjęcie (galeria mogłaby się tu pojawić)');
-  }
-
   ngOnInit(): void {
     this.userIdFromToken = this.tokenService.getJti();
-    console.log(this.isMyAd());
-    console.log(this.isPublished());
   }
 
   isMyAd(): boolean {
@@ -42,24 +38,42 @@ export class AdDetailComponent implements OnInit {
     return this.ad?.status === 'PUBLISHED';
   }
 
+  selectImage(index: number): void {
+    this.selectedImageIndex = index;
+  }
+
+  get images(): string[] {
+    return this.ad?.images ?? [];
+  }
+
+  get hasImages(): boolean {
+    return this.images.length > 0;
+  }
+
+  get selectedImage(): string | null {
+    return this.hasImages ? this.images[this.selectedImageIndex] : null;
+  }
+
   onEditAd() {
-    console.log('Edytuj ogłoszenie:', this.ad);
-    this.ad && this.adService.editAd(this.ad.id).subscribe();
+    if (this.ad) {
+      this.adService.editAd(this.ad.id).subscribe();
+    }
   }
 
   onDeleteAd() {
+    if (!this.ad) return;
     if (confirm('Czy na pewno chcesz usunąć to ogłoszenie?')) {
-      this.ad &&
-        this.adService.deleteAd(this.ad.id).subscribe(() => {
-          alert('Ogłoszenie zostało usunięte.');
-          this.router.navigate(['/ads/my']);
-        });
+      this.adService.deleteAd(this.ad.id).subscribe(() => {
+        alert('Ogłoszenie zostało usunięte.');
+        this.router.navigate(['/ads/my']);
+      });
     }
   }
 
   onSendMessage() {
-    console.log('Wysyłanie wiadomości do właściciela ogłoszenia:', this.ad);
-    this.ad && this.messageService.sendMessageToSeller(this.ad.id).subscribe();
+    if (this.ad) {
+      this.messageService.sendMessageToSeller(this.ad.id).subscribe();
+    }
   }
 
   onToggleAdStatus() {

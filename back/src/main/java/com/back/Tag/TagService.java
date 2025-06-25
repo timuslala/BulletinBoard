@@ -31,6 +31,7 @@ public class TagService {
             }
             tags.add(tag);
         }
+        tagRepository.flush();
         return tags;
     }
     @Transactional
@@ -42,6 +43,7 @@ public class TagService {
             } else {
                 tagRepository.save(tag);
             }
+            tagRepository.flush();
         }
     }
 }

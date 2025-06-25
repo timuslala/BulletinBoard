@@ -15,11 +15,11 @@
     </p>
     <p *ngIf="ad.showEmail">
       <!-- @TODO: Change to user.email -->
-      <strong>Email kontaktowy:</strong> user&#64;example.com
+      <strong>Email kontaktowy:</strong> {{ ad.email }}
     </p>
     <p *ngIf="ad.showPhone">
       <!-- @TODO: Change to user.phone -->
-      <strong>Telefon kontaktowy:</strong> 123-456-789
+      <strong>Telefon kontaktowy:</strong> {{ ad.phone }}
     </p>
     <div class="button-group">
       <button

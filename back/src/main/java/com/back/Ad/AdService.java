@@ -7,6 +7,7 @@ import com.back.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.nio.file.AccessDeniedException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -58,8 +59,10 @@ public class AdService {
         ad.setShowPhone(showPhone);
         //if tagNames is null or empty, initialize with an empty list
         if (tagNames == null || tagNames.isEmpty()) {
-            tagNames = List.of();
+            tagNames = new ArrayList<>(List.of());
         }
+        ad.setTags(new ArrayList<>(List.of()));
+        adRepository.save(ad);
         tagService.removeTags(ad.getTags());
         ad.setTags(tagService.processTags(tagNames));
         return adRepository.save(ad).toDto();

@@ -2,6 +2,7 @@ package com.back.tag;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,7 @@ public class TagService {
     public List<Tag> suggestTags(String prefix) {
         return tagRepository.findByNameStartingWith(prefix);
     }
-
+    @Transactional
     public List<Tag> processTags(List<String> tagNames) {
         List<Tag> tags = new ArrayList<>();
         for (String name : tagNames) {
@@ -30,6 +31,7 @@ public class TagService {
         }
         return tags;
     }
+    @Transactional
     public void removeTags(List<Tag> tags) {
         for (Tag tag : tags) {
             tag.setUsageCount(tag.getUsageCount() - 1);

@@ -81,4 +81,9 @@ export class AdService {
     });
     return this.http.get<Ad[]>(`${this.apiUrl}/search`, { headers, params });
   }
+
+  updateAd(id: number, updatedData: Partial<Ad>): Observable<Ad> {
+    const headers = this.tokenService.getAuthHeaders();
+    return this.http.put<Ad>(`${this.apiUrl}/${id}`, updatedData, { headers });
+  }
 }

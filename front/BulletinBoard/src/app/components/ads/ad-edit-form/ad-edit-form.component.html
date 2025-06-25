@@ -1,0 +1,115 @@
+<form
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+  (keydown.enter)="$event.preventDefault()"
+>
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Tytuł</mat-label>
+    <input matInput formControlName="title" required />
+    <mat-error *ngIf="form.get('title')?.hasError('required')"
+      >Tytuł jest wymagany</mat-error
+    >
+    <mat-error *ngIf="form.get('title')?.hasError('minlength')"
+      >Tytuł musi mieć co najmniej 5 znaków</mat-error
+    >
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Opis</mat-label>
+    <textarea matInput rows="4" formControlName="description"></textarea>
+    <mat-error *ngIf="form.get('description')?.hasError('required')"
+      >Opis jest wymagany</mat-error
+    >
+    <mat-error *ngIf="form.get('description')?.hasError('minlength')"
+      >Opis musi mieć co najmniej 10 znaków</mat-error
+    >
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Dodaj własny tag</mat-label>
+    <input matInput formControlName="newTag" (keyup.enter)="addNewTag()" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Wyszukaj tag</mat-label>
+    <input matInput formControlName="tagSearch" [matAutocomplete]="auto" />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option
+        *ngFor="let tag of tagSuggestions"
+        [value]="tag.name"
+        (onSelectionChange)="selectSuggestedTag(tag.name)"
+      >
+        {{ tag.name }} ({{ tag.usageCount }})
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-chip-grid aria-label="Wybrane tagi">
+    <mat-chip-row
+      *ngFor="let tag of form.value.tags"
+      [removable]="true"
+      (removed)="removeTag(tag)"
+    >
+      {{ tag }}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip-row>
+  </mat-chip-grid>
+  <mat-error
+    *ngIf="
+      (form.get('tags')?.touched || form.get('tags')?.dirty) &&
+      (form.get('tags')?.hasError('required') ||
+        form.get('tags')?.hasError('minlength'))
+    "
+  >
+    Wybierz co najmniej jeden tag.
+  </mat-error>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Dodaj URL zdjęcia</mat-label>
+    <input
+      matInput
+      formControlName="newImageUrl"
+      (keyup.enter)="addNewImage()"
+    />
+    <mat-error *ngIf="form.get('newImageUrl')?.hasError('pattern')">
+      Wprowadź poprawny URL (musi kończyć się na .jpg, .jpeg, .png, .webp,
+      .gif).
+    </mat-error>
+    <mat-error *ngIf="form.get('newImageUrl')?.hasError('maxImages')">
+      Możesz dodać maksymalnie 5 zdjęć.
+    </mat-error>
+    <mat-error *ngIf="form.get('newImageUrl')?.hasError('duplicateImage')">
+      Ten URL został już dodany.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-chip-grid aria-label="Dodane zdjęcia">
+    <mat-chip-row
+      *ngFor="let imageControl of images.controls; let i = index"
+      [removable]="true"
+      (removed)="removeImage(i)"
+    >
+      {{ imageControl.value }}
+      <button matChipRemove><mat-icon>cancel</mat-icon></button>
+    </mat-chip-row>
+  </mat-chip-grid>
+
+  <mat-checkbox formControlName="showEmail">Pokaż email</mat-checkbox>
+  <mat-checkbox formControlName="showPhone">Pokaż telefon</mat-checkbox>
+
+  <div class="button-group">
+    <button
+      mat-raised-button
+      color="accent"
+      type="button"
+      (click)="openPreview()"
+    >
+      Podgląd
+    </button>
+    <button mat-raised-button color="primary" type="submit">
+      Zapisz zmiany
+    </button>
+  </div>
+</form>

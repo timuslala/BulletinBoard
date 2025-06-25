@@ -1,0 +1,7 @@
+<ng-container *ngIf="ad(); else loading">
+  <app-ad-edit-form [initialData]="ad()" (editSubmitted)="onSubmit($event)" />
+</ng-container>
+
+<ng-template #loading>
+  <p>Ładowanie ogłoszenia...</p>
+</ng-template>

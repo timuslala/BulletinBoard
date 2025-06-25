@@ -56,7 +56,7 @@ export class AdDetailComponent implements OnInit {
 
   onEditAd() {
     if (this.ad) {
-      this.adService.editAd(this.ad.id).subscribe();
+      this.router.navigate(['/ads', this.ad.id, 'edit']);
     }
   }
 

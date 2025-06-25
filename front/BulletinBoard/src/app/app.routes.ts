@@ -52,6 +52,14 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'ads/:id/edit',
+    loadComponent: () =>
+      import('./pages/ads/ad-edit-page/ad-edit-page.component').then(
+        (m) => m.AdEditPageComponent
+      ),
+    canActivate: [authGuard],
+  },
+  {
     path: 'inbox',
     loadComponent: () =>
       import('./pages/messages/inbox-page/inbox-page.component').then(

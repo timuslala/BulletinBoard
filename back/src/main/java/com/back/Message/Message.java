@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.back.user.User;
 @Data
@@ -31,4 +32,17 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "reply_to_id")
     private Message replyTo;
+    
+    public MessageDto toDto() {
+        MessageDto dto = new MessageDto();
+        dto.setReceiverId(this.receiver != null ? this.receiver.getId() : null);
+        dto.setContent(this.content);
+        dto.setReplyToId(this.replyTo != null ? this.replyTo.getId() : null);
+        return dto;
+    }
+    public static List<MessageDto> toDtoList(List<Message> messages) {
+        return messages.stream()
+                .map(Message::toDto)
+                .toList();
+    }
 }

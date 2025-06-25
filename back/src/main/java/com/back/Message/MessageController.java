@@ -17,33 +17,33 @@ public class MessageController {
     private final MessageService messageService;
 
     @PostMapping
-    public ResponseEntity<Message> sendMessage(
+    public ResponseEntity<MessageDto> sendMessage(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody MessageDto request) {
-        Message message = messageService.sendMessage(
-                userDetails.getUser(),
-                new User() {{ setId(request.getReceiverId()); }},
-                request.getContent(),
-                request.getReplyToId()
-        );
-        return ResponseEntity.ok(message);
+            Message message = messageService.sendMessage(
+                    userDetails.getUser(),
+                    new User() {{ setId(request.getReceiverId()); }},
+                    request.getContent(),
+                    request.getReplyToId()
+            );
+        return ResponseEntity.ok(message.toDto());
     }
 
     @GetMapping("/inbox/all")
-    public ResponseEntity<List<Message>> getInbox(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<List<MessageDto>> getInbox(@AuthenticationPrincipal CustomUserDetails userDetails) {
         List<Message> messages = messageService.getInbox(userDetails.getUser().getId());
-        return ResponseEntity.ok(messages);
+        return ResponseEntity.ok(Message.toDtoList(messages));
     }
     //Wybierz sobie jak wolisz brac te wiadomosci na froncie, albo mi napisz jak chcesz, żebym zrobił ci backend
     @GetMapping("/sent/all")
-    public ResponseEntity<List<Message>> getSentMessages(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<List<MessageDto>> getSentMessages(@AuthenticationPrincipal CustomUserDetails userDetails) {
         List<Message> messages = messageService.getSentMessages(userDetails.getUser().getId());
-        return ResponseEntity.ok(messages);
+        return ResponseEntity.ok(Message.toDtoList(messages));
     }
 
     @GetMapping("/chatlist")
-    public ResponseEntity<List<User>> getChatList(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        List<User> chatList = messageService.getChatList(userDetails.getUser().getId());
+    public ResponseEntity<List<Long>> getChatList(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        List<Long> chatList = messageService.getChatList(userDetails.getUser().getId());
         return ResponseEntity.ok(chatList);
     }
     @GetMapping("/chatlist/{userId}")

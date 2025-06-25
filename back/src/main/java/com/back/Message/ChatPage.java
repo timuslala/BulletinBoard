@@ -6,11 +6,11 @@ import java.util.List;
 
 @Data
 public class ChatPage {
-    private List<Message> messages;
+    private List<MessageDto> messages;
     private int totalPages;
     private Long totalMessages;
 
-    public static ChatPage fromPage(Page<Message> page) {
+    public static ChatPage fromPage(Page<MessageDto> page) {
         ChatPage chatPage = new ChatPage();
         chatPage.setMessages(page.getContent());
         chatPage.setTotalPages(page.getTotalPages());
@@ -18,7 +18,7 @@ public class ChatPage {
         return chatPage;
     }
 
-    public static ChatPage fromList(List<Message> messages) {
+    public static ChatPage fromList(List<MessageDto> messages) {
         ChatPage chatPage = new ChatPage();
         chatPage.setMessages(messages);
         chatPage.setTotalPages(1);

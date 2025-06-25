@@ -33,11 +33,12 @@ public class MessageService {
         return messageRepository.findBySenderId(userId);
     }
 
-    public List<User> getChatList(Long userId) {
+    public List<Long> getChatList(Long userId) {
         List<Message> messages = messageRepository.findBySenderIdOrReceiverId(userId, userId);
         return messages.stream()
                 .map(message -> message.getSender().getId().equals(userId) ? message.getReceiver() : message.getSender())
                 .distinct()
+                .map(user -> user.getId())
                 .toList();
     }
     public ChatPage getChatMessages(Long userId, Long chatUserId, Integer page, Integer size) {
@@ -46,13 +47,14 @@ public class MessageService {
         }
         else if (page == null && size == null) {
             List<Message> messages = messageRepository.findConversation(userId, chatUserId);
-            return ChatPage.fromList(messages);
+            return ChatPage.fromList(Message.toDtoList(messages));
         } else {
             page = page != null ? page : -99; // useless, bcs i checked above but i dont know how to turn off that warning otherwise
             size = size != null ? size : -99;
             org.springframework.data.domain.Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
             org.springframework.data.domain.Page<Message> pagedMessages = messageRepository.findConversationPaged(userId, chatUserId, pageable);
-            return ChatPage.fromPage(pagedMessages);
+            org.springframework.data.domain.Page<MessageDto> pagedMessageDtos = pagedMessages.map(Message::toDto);
+            return ChatPage.fromPage(pagedMessageDtos);
         }
     }
 }
